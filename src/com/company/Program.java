@@ -1,23 +1,16 @@
 package com.company;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 
 public class Program {
@@ -26,13 +19,15 @@ public class Program {
 
 	static HashSet<Pacient> pacients = new HashSet<Pacient>();
 	static HashSet<Pacient> pacientsArxivats = new HashSet<Pacient>();
+
+	//TODO: Es una cola
 	static HashSet<Pacient> esperaOp = new HashSet<Pacient>();
 
 
 	static String fichero="/home/oliv/pacients.csv";
 
 	//2.1 Carregar pacients
-	public void carregar()throws FileNotFoundException, IOException, ClassNotFoundException {
+	public void carregar()throws IOException, ClassNotFoundException {
 
 		BufferedReader br = new BufferedReader(new FileReader(new File(fichero)));
 		String line;
@@ -40,8 +35,8 @@ public class Program {
 
 			String[] entries = line.split(",");
 
-			Pacient pacient = new Pacient(entries[1],entries[2], LocalDate.parse(entries[3],format),
-					entries[4], Double.parseDouble(entries[7]), Double.parseDouble(entries[6]),
+			Pacient pacient = new Pacient(entries[1], entries[2], LocalDate.parse(entries[3],format),
+					Persona.Genere.valueOf(entries[4].toUpperCase()), Double.parseDouble(entries[7]), Double.parseDouble(entries[6]),
 					entries[5], entries[0]);
 
 			if(pacients.contains(pacient)){
@@ -73,7 +68,7 @@ public class Program {
 		LocalDate data= LocalDate.parse(sc.nextLine(),format);
 
 		System.out.println("Gènere: ");
-		String genere=sc.nextLine();
+		String genere=sc.nextLine().toUpperCase();
 
 		System.out.println("Alçada: ");
 		double alcada=sc.nextDouble();
@@ -89,7 +84,7 @@ public class Program {
 		System.out.println("DNI: ");
 		String dni=sc.nextLine();
 
-		Pacient p=new Pacient(nom,cognom,data,genere.toUpperCase(),alcada,pes,telf,dni);
+		Pacient p=new Pacient(nom,cognom,data, Persona.Genere.valueOf(genere),alcada,pes,telf,dni);
 		sc.close();
 
 		if(pacients.contains(p)){
@@ -102,7 +97,7 @@ public class Program {
 
 
 	//2.3 Arxivar pacient
-	public void arxivarPacient() throws FileNotFoundException, ClassNotFoundException, IOException{
+	public void arxivarPacient() throws ClassNotFoundException, IOException{
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Introdueix el DNI d'un pacient: ");
 		String dni=sc.nextLine();
@@ -111,15 +106,18 @@ public class Program {
 		for(Pacient p:pacients){
 			if(p.getDni().equalsIgnoreCase(dni)){	
 				tmpPacient=p;
+				break;
 			}
 		}
+
 		if(tmpPacient!=null){
 			pacients.remove(tmpPacient);
 			pacientsArxivats.add(tmpPacient);		
 			System.out.println("S'ha arxivat correctament.");
-		}else {
+		} else {
 			System.out.println("Aquest pacient no existeix.");
 		}
+
 		sc.close();
 	}
 
@@ -193,6 +191,7 @@ public class Program {
 		}
 	}
 
+	//TODO Cambiar a cola - queue
 	//2.7 Enviar pacient a operar
 	public void operar(String dni){
 
@@ -210,20 +209,21 @@ public class Program {
 		}
 	}
 
-	//2.8 Cercar pacient
-	public void cercarP(){
-
-		//		System.out.println("Introdueix un nom, un cognom o un DNI:");
-		//		Scanner sc=new Scanner(System.in);
-		//		String x=sc.nextLine();
-		//
-		//		for(Pacient pp:pacients){
-		//			if(pp.nombre.equalsIgnoreCase(x)||pp.cognoms.equalsIgnoreCase(x)||pp.getDni().equalsIgnoreCase(x)){
-		//				System.out.println("Nom: "+pp.nombre+"\nCognoms: "+pp.cognoms+"\nDNI: "+pp.getDni());
-		//			}
-		//		}
-
-	}
+	//TODO: Submenú buscar (metodo)
+//	//2.8 Cercar pacient
+//	public void cercarP(){
+//
+//		System.out.println("Introdueix un nom, un cognom o un DNI:");
+//		Scanner sc=new Scanner(System.in);
+//		String x=sc.nextLine();
+//
+//		for(Pacient pp:pacients){
+//			if(pp.nombre.equalsIgnoreCase(x)||pp.cognoms.equalsIgnoreCase(x)||pp.getDni().equalsIgnoreCase(x)){
+//				System.out.println("Nom: "+pp.nombre+"\nCognoms: "+pp.cognoms+"\nDNI: "+pp.getDni());
+//			}
+//		}
+//
+//	}
 
 	//2.8.2 
 	public void llistarEdats(){

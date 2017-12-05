@@ -6,15 +6,12 @@ import java.util.Comparator;
 @SuppressWarnings("serial")
 public class Pacient extends Persona implements Serializable,Comparable{
 
-	
-	
 	private double alcada;
 	private double pes;
 	private String telf;
 	private String dni;
-	
-	public Pacient(String nombre, String cognoms, LocalDate dataNaix,
-			String genere, double alcada, double pes, String telf, String dni) {
+
+	public Pacient(String nombre, String cognoms, LocalDate dataNaix, Persona.Genere genere, double alcada, double pes, String telf, String dni) {
 		super(nombre, cognoms, dataNaix, genere);
 		this.alcada = alcada;
 		this.pes = pes;
@@ -22,9 +19,6 @@ public class Pacient extends Persona implements Serializable,Comparable{
 		this.dni = dni;
 	}
 
-
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -58,14 +52,14 @@ public class Pacient extends Persona implements Serializable,Comparable{
 	public String toString() {
 		return "Pacient  " +
 				"\n-------"+
-				"\nNombre: " + nombre + 
-				"\nCognoms: " + cognoms + 
-				"\nData de naixement: "+dataNaix+
-				"\nGènere: "+genere+
+				"\nNombre: " + this.getNom() +
+				"\nCognoms: " + this.getCognoms() +
+				"\nData de naixement: "+this.getDataNaix()+
+				"\nGènere: "+this.getGenere()+
 				"\nAlçada: " + alcada + 
 				"\nPes: " + pes+ 
 				"\nTelf: " + telf+
-				"\nDNIIIIIIIIIIIIIIIII: " + dni;
+				"\nDNI: " + dni;
 	}
 
 

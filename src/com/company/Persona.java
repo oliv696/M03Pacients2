@@ -1,41 +1,40 @@
 package com.company;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Persona {
-	
-	protected String nombre;
-	protected String cognoms;
-	protected LocalDate dataNaix;
-//	private enum genere{
-//		DONA,HOME
-//	}
-	protected String genere;
+	protected enum Genere{
+		DONA,HOME
+	}
+
+	private String nom;
+	private String cognoms;
+	private LocalDate dataNaix;
+
+	private Genere genere;
 
 	 
 	
-//	public Persona() {
-//		super();
-//	}
+	public Persona() {
+	}
 
 
-	public Persona(String nombre, String cognoms, LocalDate dataNaix, String genere) {
+	public Persona(String nombre, String cognoms, LocalDate dataNaix, Genere genere) {
 		super();
-		this.nombre = nombre;
+		this.nom = nombre;
 		this.cognoms=cognoms;
 		this.dataNaix = dataNaix;
 		this.genere = genere;
 	}
 
 
-	public String getNombre() {
-		return nombre;
+	public String getNom() {
+		return nom;
 	}
 
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
-
 
 	public String getCognoms() {
 		return cognoms;
@@ -46,32 +45,24 @@ public class Persona {
 	}
 
 	public int obtenirEdad() {
-		
-		LocalDate fechaNaix=this.getDataNaix();
-		
-		LocalDate fechaActual=LocalDate.now();
-		
-		return fechaActual.getYear()-fechaNaix.getYear();
-		
+		return (int) (ChronoUnit.DAYS.between(dataNaix,LocalDate.now())) / 365;
 	}
-	
 
 	public LocalDate getDataNaix() {
 		return dataNaix;
 	}
-
 
 	public void setDataNaix(LocalDate dataNaix) {
 		this.dataNaix = dataNaix;
 	}
 
 
-	public String getGenere() {
+	public Genere getGenere() {
 		return genere;
 	}
 
 
-	public void setGenere(String genere) {
+	public void setGenere(Genere genere) {
 		this.genere = genere;
 	}
 
@@ -80,7 +71,7 @@ public class Persona {
 	public String toString() {
 		return "Persona " +
 				"\n-------"+
-				"\nNombre: " + nombre + 
+				"\nNombre: " + nom +
 				"\nCognoms: " + cognoms + 
 				"\nData de naixement: "+dataNaix+
 				"\nGènere: "+genere+
