@@ -65,7 +65,7 @@ public class Pacient extends Persona implements Serializable,Comparable{
 				"\nAlçada: " + alcada + 
 				"\nPes: " + pes+ 
 				"\nTelf: " + telf+
-				"\nDNI: " + dni;
+				"\nDNIIIIIIIIIIIIIIIII: " + dni;
 	}
 
 
