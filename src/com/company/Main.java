@@ -10,18 +10,20 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
 		Program p=new Program();
 		p.carregar();
-	//p.nouPacient(); 
-	//	p.arxivarPacient();
+		//p.nouPacient(); 
+		//p.arxivarPacient();
 		//p.esborrarPacients();
-	//p.llistarPacient("44873483B");
-	//	p.cercarP();
-		//p.operar("44873483B");
-	//	p.llistarEdats();
-	//	p.llistarTelf();
+		//p.llistarPacient();
+		//	p.cercarP();
+		//p.posarEspera();
+		//p.operar();
+			//p.llistarEdats();
+			p.llistarTelf();
 		//p.menuP();
-		p.llistarEsperantOp();
+		//p.llistarEsperantOp();
+		//	p.quantitatEsperant();
 
-
+		//44873483B dni muestra
 	}
 
 }

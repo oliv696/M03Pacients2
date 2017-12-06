@@ -16,35 +16,37 @@ import java.util.Scanner;
 public class Program {   
 
 	DateTimeFormatter format=DateTimeFormatter.ofPattern("d/MM/yyy");
+	static String fichero="/home/oliv/pacients.csv";
 
 	static HashSet<Pacient> pacients = new HashSet<Pacient>();
 	static HashSet<Pacient> pacientsArxivats = new HashSet<Pacient>();
-
 	//TODO: Es una cola    ??¿¿¿
 	static HashSet<Pacient> esperaOp = new HashSet<Pacient>();
 
-
-	static String fichero="/home/oliv/pacients.csv";
 
 	//2.1 Carregar pacients desde CSV ******************************************************************************************
 	public void carregar()throws IOException, ClassNotFoundException {
 
 		BufferedReader br = new BufferedReader(new FileReader(new File(fichero)));
 		String line;
-		while ((line = br.readLine()) != null) {
+		while ((line = br.readLine()) != null) {											//FUNCIONA!!!!
 
 			String[] entries = line.split(",");
 
 			Pacient pacient = new Pacient(entries[1], entries[2], LocalDate.parse(entries[3],format),
-					Persona.Genere.valueOf(entries[4].toUpperCase()), Double.parseDouble(entries[7]), Double.parseDouble(entries[6]),
-					entries[5], entries[0]);
+					Persona.Genere.valueOf(entries[4].toUpperCase()), Double.parseDouble(entries[7]),
+					Double.parseDouble(entries[6]),entries[5], entries[0]);
 
 			if(pacients.contains(pacient)){
-				System.out.println("S'ha eliminat un pacient repetit.\n");
+				System.out.println("S'ha eliminat un pacient repetit.\n");    //només per missatge (hashShe)
 			}else{
-				pacients.add(pacient);
+				pacients.add(pacient);										  //añadimos el paciente 
 			}
 		}br.close();
+
+		//		for(Pacient p:pacients) {
+		//			System.out.println(p);
+		//		}
 	}
 
 
@@ -65,12 +67,10 @@ public class Program {
 		String genere=sc.nextLine().toUpperCase();
 
 		System.out.println("Alçada: ");
-		double alcada=sc.nextDouble();
+		double alcada=sc.nextDouble();												//FUNCIONA!!!!
 
 		System.out.println("Pes: ");
-		double pes=sc.nextDouble();
-
-		sc.nextLine();
+		double pes=sc.nextDouble();sc.nextLine();
 
 		System.out.println("Telèfon: ");
 		String telf=sc.nextLine();
@@ -92,134 +92,69 @@ public class Program {
 
 	//2.3 Arxivar pacient ***********************************************************************************************************
 	public void arxivarPacient() throws ClassNotFoundException, IOException{
-		Scanner sc=new Scanner(System.in);
-		System.out.println("Introdueix el DNI d'un pacient: ");
-		String dni=sc.nextLine();
-		Pacient tmpPacient = null;
 
-		for(Pacient p:pacients){							//cogemos cada pacient por su DNI hasta encontrar 
-			if(p.getDni().equalsIgnoreCase(dni)){	
-				tmpPacient=p;
-				break;
-			}
-		}
-
-		if(tmpPacient!=null){
-			pacients.remove(tmpPacient);
-			pacientsArxivats.add(tmpPacient);		
+		Pacient p=Buscar.buscarMenu();
+		if(p!=null){
+			pacients.remove(p);																//FUNCIONA!!!!
+			pacientsArxivats.add(p);		
 			System.out.println("S'ha arxivat correctament.");
-		} else {
-			System.out.println("Aquest pacient no existeix.");
 		}
-
-		sc.close();
 	}
 
 	//2.4 Esborrar pacient *************************************************************************************************************
 	public void esborrarPacients(){
-		//		Pacient tmpPacient = null;
-		//
-		//		for(Pacient p:pacients){
-		//			if(p.getDni().equalsIgnoreCase(dni)){	
-		//				tmpPacient=p;
-		//			}
-		//		}
-		//		if(tmpPacient!=null){
-		//			pacients.remove(tmpPacient);
-		//			tmpPacient=null;
-		//		}
-		//		for(Pacient p:pacientsArxivats){
-		//			if(p.getDni().equalsIgnoreCase(dni)){	
-		//				tmpPacient=p;
-		//			}
-		//		}if(tmpPacient!=null){
-		//			pacientsArxivats.remove(tmpPacient);
-		//		}
+		
+		Pacient p=Buscar.buscarMenu();
+		
+		if(p!=null){
+			pacients.remove(p);																//FUNCIONA!!!!
+			pacientsArxivats.remove(p);		
+			System.out.println("S'ha esborrat correctament.");
+		}
 	}
 
 	//2.5 Veure pacient ******************************************************************************************************************
 	public void llistarPacient(){
-		//
-		//		boolean trobat=false;
-		//
-		//		for(Pacient p:pacients){
-		//			if(p.getDni().equalsIgnoreCase(dni)){	
-		//				System.out.println(p);
-		//				trobat=true;
-		//			}
-		//		}
-		//		if(!trobat){
-		//			for(Pacient pa:pacientsArxivats){
-		//				if(pa.getDni().equalsIgnoreCase(dni)){	
-		//					System.out.println(pa);
-		//					trobat=true;
-		//				}
-		//			}
-		//			if(!trobat){
-		//				System.out.println("Pacient no trobat");
-		//			}
-		//		}
+
+		Pacient p=Buscar.buscarMenu();			
+																						//FUNCIONA!!!!
+		if(p!=null){	
+			System.out.println(p);
+		}
+		
+		
 	}
 
 	//2.6 Posar pacient en llista d'espera *********************************************************************************************
 	public void posarEspera(){
-		//	
-		//		boolean trobat=false;
-		//
-		//		for(Pacient p:pacients){
-		//			if(p.getDni().equalsIgnoreCase(dni)){	
-		//				esperaOp.add(p);
-		//				trobat=true;
-		//			}
-		//		}
-		//		if(!trobat){
-		//			for(Pacient pa:pacientsArxivats){
-		//				if(pa.getDni().equalsIgnoreCase(dni)){	
-		//					esperaOp.add(pa);
-		//					trobat=true;
-		//				}
-		//			}
-		//			if(!trobat){
-		//				System.out.println("Pacient no trobat");
-		//			}
-		//		}
+
+		Pacient p=Buscar.buscarMenu();
+
+		if(p!=null){																	//FUNCIONA!!!!
+			esperaOp.add(p);		
+		}
+		System.out.println(esperaOp.size());
 	}
 
-				//TODO Cambiar a cola - queue
+	//Cambiar a cola - queue????
 	//2.7 Enviar pacient a operar **********************************************************************************************************
 	public void operar(){
-		//
-		//		Pacient tmpPacient = null;
-		//
-		//		for(Pacient p:esperaOp){
-		//			if(p.getDni().equalsIgnoreCase(dni)){	
-		//				tmpPacient=p;
-		//			}
-		//		}
-		//		if(tmpPacient!=null){
-		//			esperaOp.remove(tmpPacient);
-		//		}else{
-		//			System.out.println("Pacient no trobat.");
-		//		}
+
+		Pacient p=Buscar.buscarMenu();
+		
+		if(p!=null){																	//FUNCIONA!!!!
+			esperaOp.remove(p);
+			System.out.println("Operant pacient.");
+		}
 	}
 
-					//TODO: Submenú buscar (metodo)
-	//2.8.1 Cercar pacient ********************************************************************************************************************
+	//2.8.1 Cercar pacients  **************************************************************************************************************
 	public void cercarP(){ 
-		//
-		//		System.out.println("Introdueix un nom, un cognom o un DNI:");
-		//		Scanner sc=new Scanner(System.in);
-		//		String x=sc.nextLine();
-		//
-		//		for(Pacient pp:pacients){
-		//			if(pp.nombre.equalsIgnoreCase(x)||pp.cognoms.equalsIgnoreCase(x)||pp.getDni().equalsIgnoreCase(x)){
-		//				System.out.println("Nom: "+pp.nombre+"\nCognoms: "+pp.cognoms+"\nDNI: "+pp.getDni());
-		//			}
-		//		}
-		//
+
+		System.out.println(Buscar.buscarMenu());							//FALTA ya que solo listaría uno
 	}
 
-	
+
 	//2.8.2 Llistar pacients per rang edats *************************************************************************************************
 	public void llistarEdats(){
 		Scanner sc=new Scanner(System.in);
@@ -236,8 +171,8 @@ public class Program {
 		for(Pacient p:pacients){
 			e1=p.obtenirEdad();
 			if(e1>=edat1 && e1<=edat2){
-				edades.add(p);
-			}
+				edades.add(p);											//FUNCIONA!!!! aunque no está hecho con el método buscar
+			}															//             ya que sólo encontraría una edad 
 		}
 		for(Pacient p:pacientsArxivats){
 			e1=p.obtenirEdad();
@@ -270,17 +205,19 @@ public class Program {
 
 	//2.8.4 Llistar pacients fins a pes concret ******************************************************************************************
 	public void llistarPes(){
-		
+
 	}
-	
+
 	//2.8.5 Llistar pacients fins a alçada concreta **************************************************************************************
 	public void llistarAlcada(){
-		
-	}
-	
-	//2.8.6 Donat 3 nums, imprimir telfs que acaben així *********************************************************************************
-	public void llistarTelf(){		//falta acabarlo
 
+	}
+
+	//2.8.6 Donat 3 nums, imprimir telfs que acaben així *********************************************************************************
+	public void llistarTelf(){														//falta acabarlo
+
+		
+		Buscar.
 		for(Pacient p:pacients){
 			p.getTelf().substring(p.getTelf().length()-3);
 			System.out.println(p.getTelf().substring(p.getTelf().length()-3));
@@ -289,30 +226,28 @@ public class Program {
 
 	//2.8.7 Imprimir pacients llista espera ***********************************************************************************************
 	public void llistarEsperantOp(){
-		
-		for(Pacient p:esperaOp){
+
+		for(Pacient p:esperaOp){															//FUNCIONA!!!!
 			System.out.println(p);
-			
 		}
 	}
 
 	//2.9.1 Estadistica per edat, pes i alçada *********************************************************************************************
 	public void estadisticaPesEdatAlt(){
-		
+
 	}
-	
+
 	//2.9.2 Estadistica per franja edat, pes o alçada, freqüencia ***************************************************************************
 	public void freqRangEdatPesAlt(){
-		
+
 	}
-	
+
 	//2.9.3 Quantitat pacients en llista espera *********************************************************************************************
 	public void quantitatEsperant(){
-		System.out.println(esperaOp.size());
+		System.out.println("Hi ha "+esperaOp.size()+" pacient a la llista d'espera.");			//FUNCIONA!!!!
 	}
-	
-	//Menú Principal ************************************************************************************************************************
 
+	//Menú Principal ************************************************************************************************************************
 	public void menuP() throws ClassNotFoundException, IOException{
 
 
@@ -325,7 +260,7 @@ public class Program {
 					"4. Esborrar pacient\n5. Veure pacient\n6. Enviar pacient a llista d'espera\n" +
 					"7. Enviar pacient a operar\n8. Llistats\n9. Estadístiques\n0. Sortir");
 			System.out.println("\nIntrodueix una opció:");
-			 opcio=sc.nextInt();
+			opcio=sc.nextInt();
 
 			switch(opcio){
 
@@ -343,16 +278,16 @@ public class Program {
 			sc.nextInt();
 			}
 
-			
+
 		}while(opcio!=0);
 		sc.close();
 	}
-	
+
 	// Submenu para los listados *************************************************************************************************************
 	public void llistatMenu(){	
 
 	}
-	
+
 	// Submenu para las estadisticas **********************************************************************************************************
 	public void estadistiquesMenu(){  
 
