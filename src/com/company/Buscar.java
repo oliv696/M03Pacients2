@@ -8,22 +8,21 @@ public class Buscar {
 
 	public static Pacient buscarMenu(){
 
-		System.out.println("Per quin camp vols buscar el pacient?\n1)Nom\n2)Primer Cognom\n" +
-				"3)Segon Cognom\n4)DNI\n5)Edat\n6)Telèfon\n7)Alçada\n8)Pes");
+		System.out.println("Per quin camp vols buscar el pacient?\n1)Nom\n2)Cognom\n" +
+				"3)DNI\n4)Edat\n5)Telèfon\n6)Alçada\n7)Pes");
 		Scanner sc=new Scanner(System.in);
 		int opcio=sc.nextInt();
 
 		Pacient pacient=null;
 		switch(opcio){
 		case 1:pacient=buscarNom(); break;
-		case 2:pacient=buscarCognom1(); break;
-		case 3:pacient=buscarCognom2(); break;
-		case 4:pacient=buscarDni();break;
-		case 5:pacient=buscarEdat();break;
-		case 6:pacient=buscarTelf();break;
-		case 7:pacient=buscarAlcada();break;
-		case 8:pacient=buscarPes();break;
-		default: System.out.println("Opció no vàlida [1-8]");
+		case 2:pacient=buscarCognom(); break;
+		case 3:pacient=buscarDni();break;
+		case 4:pacient=buscarEdat();break;
+		case 5:pacient=buscarTelf();break;
+		case 6:pacient=buscarAlcada();break;
+		case 7:pacient=buscarPes();break;
+		default: System.out.println("Opció no vàlida [1-7]");
 		}
 		sc.close();
 		return pacient;
@@ -61,7 +60,7 @@ public class Buscar {
 
 	}
 
-	public static Pacient buscarCognom1(){
+	public static Pacient buscarCognom(){
 
 		System.out.println("Introdueix un cognom\n");
 		Scanner sc=new Scanner(System.in);
@@ -69,18 +68,28 @@ public class Buscar {
 		Pacient pacient=null;
 
 		boolean trobat=false;
-
-		for(Pacient p:Program.pacients){				
-			if(p.getCognoms().equalsIgnoreCase(cognom)){
+		
+		for(Pacient p:Program.pacients){
+																//NO FUNCIONA CON EL SEGUNDO APELLIDO!!!!! :S
+			String[] cognoms=p.getCognoms().split(" ");
+			
+			if(cognoms[0].equalsIgnoreCase(cognom) ){			//SI CAMBIAS A [1] QUE ES 2º APELL PETA!
 				trobat=true;
 				pacient=p;
+				System.out.println(cognoms.length);
+				System.out.println(cognoms[0]+" "+cognoms[1]);	//LO RARO ESQ AQUI LO IMPRIME BIEN
+				
 			}
 		}
-		if(!trobat){									
+		if(!trobat){	
+			
 			for(Pacient pa:Program.pacientsArxivats){
-				if(pa.getNom().equalsIgnoreCase(cognom)){	
+				String[] cognoms=pa.getCognoms().split(" ");
+				
+				if(cognoms[0].equalsIgnoreCase(cognom)){
 					trobat=true;
 					pacient=pa;
+					//System.out.println(pa);
 				}
 			}
 			if(!trobat){
@@ -93,9 +102,6 @@ public class Buscar {
 
 	}
 
-	public static Pacient buscarCognom2(){
-		return null;
-	}
 
 	public static Pacient buscarDni(){
 
@@ -245,4 +251,7 @@ public class Buscar {
 		}sc.close();
 		return pacient;
 	}
+
+	
+	
 }

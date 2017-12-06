@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
 		Program p=new Program();
-		p.carregar();
+		//p.carregar();
 		//p.nouPacient(); 
 		//p.arxivarPacient();
 		//p.esborrarPacients();
@@ -18,11 +18,13 @@ public class Main {
 		//p.posarEspera();
 		//p.operar();
 			//p.llistarEdats();
-			p.llistarTelf();
-		//p.menuP();
+		//	p.llistarTelf();
+		p.menuP();
 		//p.llistarEsperantOp();
 		//	p.quantitatEsperant();
 
+		//Buscar.buscarMenu();
+		
 		//44873483B dni muestra
 	}
 
