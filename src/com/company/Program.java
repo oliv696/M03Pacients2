@@ -191,7 +191,7 @@ public class Program {
 		//		}
 	}
 
-	//TODO Cambiar a cola - queue
+				//TODO Cambiar a cola - queue
 	//2.7 Enviar pacient a operar
 	public void operar(){
 		//
@@ -209,8 +209,8 @@ public class Program {
 		//		}
 	}
 
-	//TODO: Submenú buscar (metodo)
-	//2.8 Cercar pacient
+					//TODO: Submenú buscar (metodo)
+	//2.8.1 Cercar pacient
 	public void cercarP(){
 		//
 		//		System.out.println("Introdueix un nom, un cognom o un DNI:");
@@ -225,6 +225,7 @@ public class Program {
 		//
 	}
 
+	
 	//2.8.2 
 	public void llistarEdats(){
 		Scanner sc=new Scanner(System.in);
@@ -261,7 +262,7 @@ public class Program {
 	}
 
 
-	//2.8.3
+	//2.8.3 Llistar pacients amb el mateix cognom, alfabeticament
 	public void llistarCognom(){
 
 		String[] tmp;
@@ -273,6 +274,16 @@ public class Program {
 		///comparo segunda pos del array con el apellido introducido, si coincide lo guardo en array, comparator para ordenar con apellido
 	}
 
+	//2.8.4 Llistar pacients fins a pes concret 
+	public void llistarPes(){
+		
+	}
+	
+	//2.8.5 Llistar pacients fins a alçada concreta
+	public void llistarAlcada(){
+		
+	}
+	
 	//2.8.6
 	public void llistarTelf(){		//falta acabarlo
 
@@ -282,8 +293,30 @@ public class Program {
 		}
 	}
 
+	//2.8.7 Imprimir pacients llista espera
+	public void llistarEsperantOp(){
+		
+		for(Pacient p:esperaOp){
+			System.out.println(p);
+			
+		}
+	}
 
-
+	//2.9.1 Estadistica per edat, pes i alçada
+	public void estadisticaPesEdatAlt(){
+		
+	}
+	
+	//2.9.2 Estadistica per franja edat, pes o alçada, freqüencia
+	public void freqRangEdatPesAlt(){
+		
+	}
+	
+	//2.9.3 Quantitat pacients en llista espera
+	public void quantitatEsperant(){
+		System.out.println(esperaOp.size());
+	}
+	
 	//Menú Principal
 
 	public void menuP() throws ClassNotFoundException, IOException{
@@ -302,7 +335,7 @@ public class Program {
 
 			switch(opcio){
 
-			case 1: carregar();break;
+			case 1:carregar();break;
 			case 2:nouPacient();break;
 			case 3:arxivarPacient();break;
 			case 4:esborrarPacients();break;
