@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Comparator;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "rawtypes" })
 public class Pacient extends Persona implements Serializable,Comparable{
 
 	private double alcada;
@@ -92,7 +92,6 @@ public class Pacient extends Persona implements Serializable,Comparable{
 	}
 	
 	static Comparator<Pacient> comparator = new Comparator<Pacient>() {
-		   @Override
 		   public int compare(Pacient u1, Pacient u2) {
 			Integer a = u1.obtenirEdad();
 			Integer b = u2.obtenirEdad();
@@ -100,7 +99,6 @@ public class Pacient extends Persona implements Serializable,Comparable{
 		   }
 		};
 
-	@Override
 	public int compareTo(Object arg0) {
 		// TODO Auto-generated method stub
 		return 0;

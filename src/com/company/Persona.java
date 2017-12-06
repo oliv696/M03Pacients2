@@ -3,7 +3,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class Persona {
-	protected enum Genere{
+	
+	public enum Genere{
 		DONA,HOME
 	}
 

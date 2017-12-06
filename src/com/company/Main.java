@@ -4,12 +4,12 @@ import java.io.IOException;
 
 
 
-public class Main {  //peoeejkemee
+public class Main {  
 
 
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
 		Program p=new Program();
-		p.carregar();
+		//p.carregar();
 	//p.nouPacient(); 
 	//	p.arxivarPacient();
 		//p.esborrarPacients();
@@ -17,7 +17,8 @@ public class Main {  //peoeejkemee
 	//	p.cercarP();
 		//p.operar("44873483B");
 	//	p.llistarEdats();
-		p.llistarTelf();
+	//	p.llistarTelf();
+		p.menuP();
 
 
 	}

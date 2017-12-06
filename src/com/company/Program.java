@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class Program {   //PROBAD¡OOOO
+public class Program {   
 
 	DateTimeFormatter format=DateTimeFormatter.ofPattern("d/MM/yyy");
 
 	static HashSet<Pacient> pacients = new HashSet<Pacient>();
 	static HashSet<Pacient> pacientsArxivats = new HashSet<Pacient>();
 
-	//TODO: Es una cola
+	//TODO: Es una cola    ??¿¿¿
 	static HashSet<Pacient> esperaOp = new HashSet<Pacient>();
 
 
@@ -103,7 +103,7 @@ public class Program {   //PROBAD¡OOOO
 		String dni=sc.nextLine();
 		Pacient tmpPacient = null;
 
-		for(Pacient p:pacients){
+		for(Pacient p:pacients){							//cogemos cada pacient por su DNI hasta encontrar 
 			if(p.getDni().equalsIgnoreCase(dni)){	
 				tmpPacient=p;
 				break;
@@ -122,108 +122,108 @@ public class Program {   //PROBAD¡OOOO
 	}
 
 	//2.4 Esborrar pacient
-	public void esborrarPacients(String dni){
-		Pacient tmpPacient = null;
-
-		for(Pacient p:pacients){
-			if(p.getDni().equalsIgnoreCase(dni)){	
-				tmpPacient=p;
-			}
-		}
-		if(tmpPacient!=null){
-			pacients.remove(tmpPacient);
-			tmpPacient=null;
-		}
-		for(Pacient p:pacientsArxivats){
-			if(p.getDni().equalsIgnoreCase(dni)){	
-				tmpPacient=p;
-			}
-		}if(tmpPacient!=null){
-			pacientsArxivats.remove(tmpPacient);
-		}
+	public void esborrarPacients(){
+		//		Pacient tmpPacient = null;
+		//
+		//		for(Pacient p:pacients){
+		//			if(p.getDni().equalsIgnoreCase(dni)){	
+		//				tmpPacient=p;
+		//			}
+		//		}
+		//		if(tmpPacient!=null){
+		//			pacients.remove(tmpPacient);
+		//			tmpPacient=null;
+		//		}
+		//		for(Pacient p:pacientsArxivats){
+		//			if(p.getDni().equalsIgnoreCase(dni)){	
+		//				tmpPacient=p;
+		//			}
+		//		}if(tmpPacient!=null){
+		//			pacientsArxivats.remove(tmpPacient);
+		//		}
 	}
 
 	//2.5 Veure pacient
-	public void llistarPacient(String dni){
-
-		boolean trobat=false;
-
-		for(Pacient p:pacients){
-			if(p.getDni().equalsIgnoreCase(dni)){	
-				System.out.println(p);
-				trobat=true;
-			}
-		}
-		if(!trobat){
-			for(Pacient pa:pacientsArxivats){
-				if(pa.getDni().equalsIgnoreCase(dni)){	
-					System.out.println(pa);
-					trobat=true;
-				}
-			}
-			if(!trobat){
-				System.out.println("Pacient no trobat");
-			}
-		}
+	public void llistarPacient(){
+		//
+		//		boolean trobat=false;
+		//
+		//		for(Pacient p:pacients){
+		//			if(p.getDni().equalsIgnoreCase(dni)){	
+		//				System.out.println(p);
+		//				trobat=true;
+		//			}
+		//		}
+		//		if(!trobat){
+		//			for(Pacient pa:pacientsArxivats){
+		//				if(pa.getDni().equalsIgnoreCase(dni)){	
+		//					System.out.println(pa);
+		//					trobat=true;
+		//				}
+		//			}
+		//			if(!trobat){
+		//				System.out.println("Pacient no trobat");
+		//			}
+		//		}
 	}
 
 	//2.6 Posar pacient en llista d'espera
-	public void posarEspera(String dni){
-
-		boolean trobat=false;
-
-		for(Pacient p:pacients){
-			if(p.getDni().equalsIgnoreCase(dni)){	
-				esperaOp.add(p);
-				trobat=true;
-			}
-		}
-		if(!trobat){
-			for(Pacient pa:pacientsArxivats){
-				if(pa.getDni().equalsIgnoreCase(dni)){	
-					esperaOp.add(pa);
-					trobat=true;
-				}
-			}
-			if(!trobat){
-				System.out.println("Pacient no trobat");
-			}
-		}
+	public void posarEspera(){
+		//	
+		//		boolean trobat=false;
+		//
+		//		for(Pacient p:pacients){
+		//			if(p.getDni().equalsIgnoreCase(dni)){	
+		//				esperaOp.add(p);
+		//				trobat=true;
+		//			}
+		//		}
+		//		if(!trobat){
+		//			for(Pacient pa:pacientsArxivats){
+		//				if(pa.getDni().equalsIgnoreCase(dni)){	
+		//					esperaOp.add(pa);
+		//					trobat=true;
+		//				}
+		//			}
+		//			if(!trobat){
+		//				System.out.println("Pacient no trobat");
+		//			}
+		//		}
 	}
 
 	//TODO Cambiar a cola - queue
 	//2.7 Enviar pacient a operar
-	public void operar(String dni){
-
-		Pacient tmpPacient = null;
-
-		for(Pacient p:esperaOp){
-			if(p.getDni().equalsIgnoreCase(dni)){	
-				tmpPacient=p;
-			}
-		}
-		if(tmpPacient!=null){
-			esperaOp.remove(tmpPacient);
-		}else{
-			System.out.println("Pacient no trobat.");
-		}
+	public void operar(){
+		//
+		//		Pacient tmpPacient = null;
+		//
+		//		for(Pacient p:esperaOp){
+		//			if(p.getDni().equalsIgnoreCase(dni)){	
+		//				tmpPacient=p;
+		//			}
+		//		}
+		//		if(tmpPacient!=null){
+		//			esperaOp.remove(tmpPacient);
+		//		}else{
+		//			System.out.println("Pacient no trobat.");
+		//		}
 	}
 
 	//TODO: Submenú buscar (metodo)
-//	//2.8 Cercar pacient
-//	public void cercarP(){
-//
-//		System.out.println("Introdueix un nom, un cognom o un DNI:");
-//		Scanner sc=new Scanner(System.in);
-//		String x=sc.nextLine();
-//
-//		for(Pacient pp:pacients){
-//			if(pp.nombre.equalsIgnoreCase(x)||pp.cognoms.equalsIgnoreCase(x)||pp.getDni().equalsIgnoreCase(x)){
-//				System.out.println("Nom: "+pp.nombre+"\nCognoms: "+pp.cognoms+"\nDNI: "+pp.getDni());
-//			}
-//		}
-//
-//	}
+	//2.8 Cercar pacient
+	public void cercarP(){
+		//
+		//		System.out.println("Introdueix un nom, un cognom o un DNI:");
+		//		Scanner sc=new Scanner(System.in);
+		//		String x=sc.nextLine();
+		//
+		//		for(Pacient pp:pacients){
+		//			if(pp.nombre.equalsIgnoreCase(x)||pp.cognoms.equalsIgnoreCase(x)||pp.getDni().equalsIgnoreCase(x)){
+		//				System.out.println("Nom: "+pp.nombre+"\nCognoms: "+pp.cognoms+"\nDNI: "+pp.getDni());
+		//			}
+		//		}
+		//
+	}
 
 	//2.8.2 
 	public void llistarEdats(){
@@ -251,7 +251,7 @@ public class Program {   //PROBAD¡OOOO
 			}
 		}
 
-		List<Pacient> ordenados=new ArrayList<>();
+		List<Pacient> ordenados=new ArrayList<Pacient>();
 		ordenados.addAll(edades);
 		Collections.sort(ordenados, Pacient.comparator);
 
@@ -265,16 +265,16 @@ public class Program {   //PROBAD¡OOOO
 	public void llistarCognom(){
 
 		String[] tmp;
-		
+
 		for(Pacient p:pacients){
 			tmp=p.getCognoms().split(" ");
 		}
-		
+
 		///comparo segunda pos del array con el apellido introducido, si coincide lo guardo en array, comparator para ordenar con apellido
 	}
 
 	//2.8.6
-	public void llistarTelf(){
+	public void llistarTelf(){		//falta acabarlo
 
 		for(Pacient p:pacients){
 			p.getTelf().substring(p.getTelf().length()-3);
@@ -282,6 +282,50 @@ public class Program {   //PROBAD¡OOOO
 		}
 	}
 
+
+
+	//Menú Principal
+
+	public void menuP() throws ClassNotFoundException, IOException{
+
+
+		System.out.println("\n*********Benvingut/da!*********\n");
+		Scanner sc=new Scanner(System.in);
+		int opcio;
+		do{
+			System.out.println("Menú Principal:");
+			System.out.println("1. Carregar pacients\n2. Crear nou pacient\n3. Arxivar pacient\n" +
+					"4. Esborrar pacient\n5. Veure pacient\n6. Enviar pacient a llista d'espera\n" +
+					"7. Enviar pacient a operar\n8. Llistats\n9. Estadístiques\n0. Sortir");
+			System.out.println("\nIntrodueix una opció:");
+			 opcio=sc.nextInt();
+
+			switch(opcio){
+
+			case 1: carregar();break;
+			case 2:nouPacient();break;
+			case 3:arxivarPacient();break;
+			case 4:esborrarPacients();break;
+			case 5:llistarPacient();break;
+			case 6:posarEspera();break;
+			case 7:operar();break;
+			case 8:llistatMenu();break;
+			case 9:estadistiquesMenu();break;
+			case 0:System.out.println("Fins aviat!!");break;
+			default: System.out.println("Opció incorrecta! [1-9]\n");
+			sc.nextInt();
+			}
+
+			
+		}while(opcio!=0);
+		sc.close();
+	}
+	public void llistatMenu(){	//submenu para los listados
+
+	}
+	public void estadistiquesMenu(){  //submenu para las estadisticas
+
+	}
 }
 
 
