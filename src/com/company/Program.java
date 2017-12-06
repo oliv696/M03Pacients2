@@ -26,7 +26,7 @@ public class Program {
 
 	static String fichero="/home/oliv/pacients.csv";
 
-	//2.1 Carregar pacients
+	//2.1 Carregar pacients desde CSV ******************************************************************************************
 	public void carregar()throws IOException, ClassNotFoundException {
 
 		BufferedReader br = new BufferedReader(new FileReader(new File(fichero)));
@@ -44,17 +44,11 @@ public class Program {
 			}else{
 				pacients.add(pacient);
 			}
-
-
 		}br.close();
-
-		//		for(Pacient p:pacients){
-		//			System.out.println(p);
-		//		}
 	}
 
 
-	//2.2 Crear nou pacient
+	//2.2 Crear nou pacient ****************************************************************************************************
 	public void nouPacient(){
 
 		Scanner sc=new Scanner(System.in);
@@ -96,7 +90,7 @@ public class Program {
 	}
 
 
-	//2.3 Arxivar pacient
+	//2.3 Arxivar pacient ***********************************************************************************************************
 	public void arxivarPacient() throws ClassNotFoundException, IOException{
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Introdueix el DNI d'un pacient: ");
@@ -121,7 +115,7 @@ public class Program {
 		sc.close();
 	}
 
-	//2.4 Esborrar pacient
+	//2.4 Esborrar pacient *************************************************************************************************************
 	public void esborrarPacients(){
 		//		Pacient tmpPacient = null;
 		//
@@ -143,7 +137,7 @@ public class Program {
 		//		}
 	}
 
-	//2.5 Veure pacient
+	//2.5 Veure pacient ******************************************************************************************************************
 	public void llistarPacient(){
 		//
 		//		boolean trobat=false;
@@ -167,7 +161,7 @@ public class Program {
 		//		}
 	}
 
-	//2.6 Posar pacient en llista d'espera
+	//2.6 Posar pacient en llista d'espera *********************************************************************************************
 	public void posarEspera(){
 		//	
 		//		boolean trobat=false;
@@ -192,7 +186,7 @@ public class Program {
 	}
 
 				//TODO Cambiar a cola - queue
-	//2.7 Enviar pacient a operar
+	//2.7 Enviar pacient a operar **********************************************************************************************************
 	public void operar(){
 		//
 		//		Pacient tmpPacient = null;
@@ -210,8 +204,8 @@ public class Program {
 	}
 
 					//TODO: Submenú buscar (metodo)
-	//2.8.1 Cercar pacient
-	public void cercarP(){
+	//2.8.1 Cercar pacient ********************************************************************************************************************
+	public void cercarP(){ 
 		//
 		//		System.out.println("Introdueix un nom, un cognom o un DNI:");
 		//		Scanner sc=new Scanner(System.in);
@@ -226,7 +220,7 @@ public class Program {
 	}
 
 	
-	//2.8.2 
+	//2.8.2 Llistar pacients per rang edats *************************************************************************************************
 	public void llistarEdats(){
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Introdueix una edat: ");
@@ -262,7 +256,7 @@ public class Program {
 	}
 
 
-	//2.8.3 Llistar pacients amb el mateix cognom, alfabeticament
+	//2.8.3 Llistar pacients amb el mateix cognom, alfabeticament *************************************************************************
 	public void llistarCognom(){
 
 		String[] tmp;
@@ -274,17 +268,17 @@ public class Program {
 		///comparo segunda pos del array con el apellido introducido, si coincide lo guardo en array, comparator para ordenar con apellido
 	}
 
-	//2.8.4 Llistar pacients fins a pes concret 
+	//2.8.4 Llistar pacients fins a pes concret ******************************************************************************************
 	public void llistarPes(){
 		
 	}
 	
-	//2.8.5 Llistar pacients fins a alçada concreta
+	//2.8.5 Llistar pacients fins a alçada concreta **************************************************************************************
 	public void llistarAlcada(){
 		
 	}
 	
-	//2.8.6
+	//2.8.6 Donat 3 nums, imprimir telfs que acaben així *********************************************************************************
 	public void llistarTelf(){		//falta acabarlo
 
 		for(Pacient p:pacients){
@@ -293,7 +287,7 @@ public class Program {
 		}
 	}
 
-	//2.8.7 Imprimir pacients llista espera
+	//2.8.7 Imprimir pacients llista espera ***********************************************************************************************
 	public void llistarEsperantOp(){
 		
 		for(Pacient p:esperaOp){
@@ -302,22 +296,22 @@ public class Program {
 		}
 	}
 
-	//2.9.1 Estadistica per edat, pes i alçada
+	//2.9.1 Estadistica per edat, pes i alçada *********************************************************************************************
 	public void estadisticaPesEdatAlt(){
 		
 	}
 	
-	//2.9.2 Estadistica per franja edat, pes o alçada, freqüencia
+	//2.9.2 Estadistica per franja edat, pes o alçada, freqüencia ***************************************************************************
 	public void freqRangEdatPesAlt(){
 		
 	}
 	
-	//2.9.3 Quantitat pacients en llista espera
+	//2.9.3 Quantitat pacients en llista espera *********************************************************************************************
 	public void quantitatEsperant(){
 		System.out.println(esperaOp.size());
 	}
 	
-	//Menú Principal
+	//Menú Principal ************************************************************************************************************************
 
 	public void menuP() throws ClassNotFoundException, IOException{
 
@@ -353,10 +347,14 @@ public class Program {
 		}while(opcio!=0);
 		sc.close();
 	}
-	public void llistatMenu(){	//submenu para los listados
+	
+	// Submenu para los listados *************************************************************************************************************
+	public void llistatMenu(){	
 
 	}
-	public void estadistiquesMenu(){  //submenu para las estadisticas
+	
+	// Submenu para las estadisticas **********************************************************************************************************
+	public void estadistiquesMenu(){  
 
 	}
 }
