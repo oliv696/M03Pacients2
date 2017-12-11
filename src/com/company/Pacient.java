@@ -19,36 +19,22 @@ public class Pacient extends Persona implements Serializable,Comparable{
 		this.dni = dni;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dni == null) ? 0 : dni.hashCode());
-		return result;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Pacient pacient = (Pacient) o;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pacient other = (Pacient) obj;
-		if (dni == null) {
-			if (other.dni != null)
-				return false;
-		} else if (!dni.equals(other.dni))
-			return false;
-		return true;
-	}
+        return dni != null ? dni.equals(pacient.dni) : pacient.dni == null;
+    }
 
+    @Override
+    public int hashCode() {
+        return dni != null ? dni.hashCode() : 0;
+    }
 
-
-
-	@Override
+    @Override
 	public String toString() {
 		return "Pacient  " +
 				"\n-------"+
@@ -104,5 +90,7 @@ public class Pacient extends Persona implements Serializable,Comparable{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 
 }

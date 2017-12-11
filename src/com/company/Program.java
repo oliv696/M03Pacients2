@@ -25,9 +25,9 @@ public class Program {
 	public void carregar()throws IOException, ClassNotFoundException {
 
 		//TODO: Descomentar antes de entregar
-		Scanner scanner= new Scanner(System.in);
-		System.out.println("Introdueix la ruta del fitxer: ");
-		rutaFitxer =scanner.nextLine();
+		//Scanner scanner= new Scanner(System.in);
+		//System.out.println("Introdueix la ruta del fitxer: ");
+		//rutaFitxer =scanner.nextLine();
 		File fitxer=new File(rutaFitxer);
 
 		if (!fitxer.exists()) {
@@ -77,43 +77,62 @@ public class Program {
 	public void nouPacient(){
 
 		Scanner sc=new Scanner(System.in);
-		System.out.println("Nom: ");
-		String nom=sc.nextLine();
+        boolean repetit=false;
+        Pacient p;
+        char opcio = 'n';
 
-		System.out.println("Cognoms: ");
-		String cognom=sc.nextLine();
+		do {
+            System.out.println("DNI: ");
+            String dni=sc.nextLine();
 
-		System.out.println("Data de naixement: [dd/mm/yyyy]");
-		LocalDate data= LocalDate.parse(sc.nextLine(),format);
-		
-		System.out.println("Gènere: [home-dona]");
-		String genere=sc.nextLine().toUpperCase();
-		while(!(genere.equalsIgnoreCase("home")||genere.equalsIgnoreCase("dona"))){
-			System.out.println("Incorrecte!! [home-dona]");
-			 genere=sc.nextLine().toUpperCase();
-		}
-		System.out.println("Alçada: ");
-		double alcada=sc.nextDouble();												//FUNCIONA!!!!
+            System.out.println("Nom: ");
+            String nom=sc.nextLine();
 
-		System.out.println("Pes: ");
-		double pes=sc.nextDouble();sc.nextLine();
+            System.out.println("Cognoms: ");
+            String cognom=sc.nextLine();
 
-		System.out.println("Telèfon: ");
-		String telf=sc.nextLine();
+            System.out.println("Data de naixement: [dd/mm/yyyy]");
+            LocalDate data= LocalDate.parse(sc.nextLine(),format);
 
-		System.out.println("DNI: ");
-		String dni=sc.nextLine();
+            System.out.println("Gènere: [home-dona]");
+            String genere=sc.nextLine().toUpperCase();
+            while(!(genere.equalsIgnoreCase("home")||genere.equalsIgnoreCase("dona"))){
+                System.out.println("Incorrecte!! [home-dona]");
+                genere=sc.nextLine().toUpperCase();
+            }
+            System.out.println("Alçada [cm]: ");
+            double alcada=sc.nextInt(); sc.nextLine();												//FUNCIONA!!!!
 
-		Pacient p=new Pacient(nom,cognom,data, Persona.Genere.valueOf(genere),alcada,pes,telf,dni);
+            System.out.println("Pes: ");
+            double pes=sc.nextDouble();sc.nextLine();
+
+            System.out.println("Telèfon: ");
+            String telf=sc.nextLine();
+
+            p=new Pacient(nom,cognom,data, Persona.Genere.valueOf(genere),alcada,pes,telf,dni);
+
+            for (Pacient pac: pacients) {
+                if (p.equals(pac)) {
+                    repetit=true;
+                    System.out.println("Pacient repetit! Vols tornar-ho a intentar? [y/n]: ");
+                    opcio=sc.nextLine().charAt(0);
+                    break;
+                }
+            }
+        }while (repetit && (opcio == 'y' || opcio == 'Y'));
+
+		if (!repetit) {
+            pacients.add(p);
+            System.out.println("Pacient afegit correctament.\n");
+        } else {
+            System.out.println("Tornant al menú principal...");
+        }
+
+
+
 		//sc.close();
 
-		//TODO: Hay que convertir esto en un while ("si aquest pacient ja existeix (DNI repetit) s’avisa del error i es repeteix l’operació")
-		if(pacients.contains(p)){
-			System.out.println("S'ha eliminat el pacient repetit perquè estava repetit.\n");
-		}else{
-			pacients.add(p);
-			System.out.println("Pacient afegit correctament.\n");
-		}
+
 	}
 
 
@@ -158,7 +177,8 @@ public class Program {
 		Pacient p=Buscar.buscarMenu();
 
 		if(p!=null){																	//FUNCIONA!!!!
-			esperaOp.add(p);		
+			esperaOp.add(p);
+			System.out.println("S'ha posat en llista d'espera correctament.\n");
 		}
 	}
 
@@ -207,7 +227,6 @@ public class Program {
 			}
 		}
 
-		//TODO: Ordenar directamente en el array de edades
 		List<Pacient> ordenados=new ArrayList<>();
 		ordenados.addAll(edades);
 		Collections.sort(ordenados, Pacient.comparator);
@@ -236,58 +255,119 @@ public class Program {
 
 	//2.8.4 Llistar pacients fins a pes concret ******************************************************************************************
 	public void llistarPes(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Introdueix un pes màxim: ");
+        double pes = Double.parseDouble(scanner.nextLine());
 
-		List<Pacient> pes = new ArrayList<>();
-		
-		//TODO: Hacer
-		
+        List<Pacient> trobats = new ArrayList<>();
+        for (Pacient p : pacients) {
+            if (p.getPes() <= pes) {
+                trobats.add(p);
+            }
+        }
+
+        for (Pacient p : pacientsArxivats) {
+            if (p.getPes() <= pes) {
+                trobats.add(p);
+            }
+        }
+
+        if (trobats.isEmpty()) {
+            System.out.println("No s'ha trobat cap pacient amb alçada menor o igual a la indicada.");
+        } else {
+            Collections.sort(trobats, (o1, o2) -> {
+                if (o1.getPes() > o2.getPes()) {
+                    return -1;
+                } else if (o1.getPes() == o2.getPes()) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            });
+
+            for (Pacient p : trobats) {
+                System.out.println(p);
+            }
+        }
 	}
 
 	//2.8.5 Llistar pacients fins a alçada concreta **************************************************************************************
 	public void llistarAlcada(){
+	    Scanner scanner = new Scanner(System.in);
+        System.out.println("Introdueix una alçada màxima: ");
+        int alcada = Integer.parseInt(scanner.nextLine());
 
-		//TODO: Hacer
+        List<Pacient> trobats = new ArrayList<>();
+        for (Pacient p : pacients) {
+            if (p.getAlcada() <= alcada) {
+                trobats.add(p);
+            }
+        }
+
+        for (Pacient p : pacientsArxivats) {
+            if (p.getAlcada() <= alcada) {
+                trobats.add(p);
+            }
+        }
+
+        if (trobats.isEmpty()) {
+            System.out.println("No s'ha trobat cap pacient amb alçada menor o igual a la indicada.");
+        } else {
+            Collections.sort(trobats, (o1, o2) -> {
+                if (o1.getAlcada() > o2.getAlcada()) {
+                    return -1;
+                } else if (o1.getAlcada() == o2.getAlcada()) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            });
+
+            for (Pacient p : trobats) {
+                System.out.println(p);
+            }
+        }
 
 	}
 
 	//2.8.6 Donat 3 nums, imprimir telfs que acaben així *********************************************************************************
 	public void llistarTelf(){														
+        Scanner sc=new Scanner(System.in);
+        String nums;
 
-		Scanner sc=new Scanner(System.in);
-		/*
-		System.out.println("Introdueix un primer nombre");
-		int num1=sc.nextInt();
-		System.out.println("Introdueix un segon nombre");
-		int num2=sc.nextInt();
-		System.out.println("Introdueix un tercer nombre");
-		int num3=sc.nextInt();																//FUNCIONA!!!!
-		*/
-		//TODO: No funciona así??
-		String nums = sc.nextLine();
+        System.out.println("Introdueix una terminació de 3 xifres: ");
+        nums = sc.nextLine();
 
-		List<String> telefonos = new ArrayList<>();
-		//String nums=String.valueOf(num1)+String.valueOf(num2)+String.valueOf(num3);
+        while (nums.length() != 3) {
+            System.out.println("Has d'introduïr exactament 3 xifres: ");
+            nums = sc.nextLine();
+        }
 
-		for(Pacient p:pacients){
-			String telfs=p.getTelf().substring(p.getTelf().length()-3);
-			if(telfs.equals(nums)){
-				telefonos.add(p.getTelf());
-			}
-		}
-		for(Pacient pa:pacientsArxivats){
-			String telfs2=pa.getTelf().substring(pa.getTelf().length()-3);
-			if(telfs2.equals(nums)){
-				telefonos.add(pa.getTelf());
-			}
-		}
 
-		if(telefonos.isEmpty()){
-			System.out.println("No n'hi ha telèfons acabats amb aquesta xifra.\n");
-		}else{
-			for(String t:telefonos){
-				System.out.println(t);
-			}
-		}
+        List<String> telefonos = new ArrayList<>();
+
+        for(Pacient p:pacients){
+            String telfs=p.getTelf().substring(p.getTelf().length()-3);
+            if(telfs.equals(nums)){
+                telefonos.add(p.getTelf());
+            }
+        }
+        for(Pacient pa:pacientsArxivats){
+            String telfs2=pa.getTelf().substring(pa.getTelf().length()-3);
+            if(telfs2.equals(nums)){
+                telefonos.add(pa.getTelf());
+            }
+        }
+
+        if(telefonos.isEmpty()){
+            System.out.println("No n'hi ha telèfons acabats amb aquesta xifra.\n");
+        }else{
+            System.out.println("Telèfons trobats: ");
+            for(String t:telefonos){
+                System.out.println(t);
+            }
+        }
+
 		//sc.close();
 		System.out.println("\n");
 	}

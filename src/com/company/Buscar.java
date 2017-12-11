@@ -33,6 +33,7 @@ public class Buscar {
 	// Solución 1: Crear función auxiliar que muestre todos los que ha encontrado (y añadir a arraylist auxiliar de encontrados?)
 	// y pida al usuario cual de ellos hay que devolver
 	// Solución 2: Añadir esa función dentro de cada una
+	//GUARDAR INDICE EN CADA PASO EN ARRAY INTEGER
 
 	private static Pacient buscarNom(){
 
