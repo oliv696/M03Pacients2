@@ -11,10 +11,7 @@ public class Persona {
 	private String nom;
 	private String cognoms;
 	private LocalDate dataNaix;
-
 	private Genere genere;
-
-	 
 	
 	public Persona() {
 	}
@@ -68,6 +65,7 @@ public class Persona {
 	}
 
 
+	//TODO: Convertir a tabla
 	@Override
 	public String toString() {
 		return "Persona " +

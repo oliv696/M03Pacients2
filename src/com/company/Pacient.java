@@ -90,7 +90,8 @@ public class Pacient extends Persona implements Serializable,Comparable{
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-	
+
+	//TODO: Revisar esto (es necesario Comparator? Meter en compareTo?)
 	static Comparator<Pacient> comparator = new Comparator<Pacient>() {
 		   public int compare(Pacient u1, Pacient u2) {
 			Integer a = u1.obtenirEdad();

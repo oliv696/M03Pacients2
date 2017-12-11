@@ -6,11 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Program {   
@@ -18,10 +14,10 @@ public class Program {
 	DateTimeFormatter format=DateTimeFormatter.ofPattern("d/MM/yyy");
 	static String fichero="/home/oliv/pacients.csv";
 
-	static HashSet<Pacient> pacients = new HashSet<Pacient>();
-	static HashSet<Pacient> pacientsArxivats = new HashSet<Pacient>();
+	static Set<Pacient> pacients = new HashSet<>();
+	static Set<Pacient> pacientsArxivats = new HashSet<>();
 	//TODO: Es una cola    ??¿¿¿ no hace falta !
-	static HashSet<Pacient> esperaOp = new HashSet<Pacient>();
+	static Set<Pacient> esperaOp = new HashSet<>();
 
 
 	//2.1 Carregar pacients desde CSV ******************************************************************************************
@@ -38,11 +34,13 @@ public class Program {
 					Double.parseDouble(entries[6]),entries[5], entries[0]);
 
 			if(pacients.contains(pacient)){
+				// TODO: S'ha eliminat o no s'ha carregat?
 				System.out.println("S'ha eliminat un pacient repetit.\n");    //només per missatge (hashSet)
 			}else{
 				pacients.add(pacient);										  //añadimos el paciente 
 			}
-		}br.close();
+		}
+		br.close();
 
 		//				for(Pacient p:pacients) {
 		//					System.out.println(p);
@@ -84,6 +82,7 @@ public class Program {
 		Pacient p=new Pacient(nom,cognom,data, Persona.Genere.valueOf(genere),alcada,pes,telf,dni);
 		sc.close();
 
+		//TODO: Hay que convertir esto en un while ("si aquest pacient ja existeix (DNI repetit) s’avisa del error i es repeteix l’operació")
 		if(pacients.contains(p)){
 			System.out.println("S'ha eliminat el pacient repetit perquè estava repetit.\n");
 		}else{
@@ -160,13 +159,13 @@ public class Program {
 	//2.8.2 Llistar pacients per rang edats *************************************************************************************************
 	public void llistarEdats(){
 		Scanner sc=new Scanner(System.in);
-		System.out.println("Introdueix una edat: ");
-		int edat1=sc.nextInt();
-		System.out.println("Introdueix una altra edat");
-		int edat2=sc.nextInt();
+		System.out.println("Introdueix una edat mínima: ");
+		int edat1=sc.nextInt();sc.nextLine();
+		System.out.println("Introdueix una edat màxima");
+		int edat2=sc.nextInt();sc.nextLine();
 		sc.close();
 
-		HashSet<Pacient> edades = new HashSet<Pacient>();
+		Set<Pacient> edades = new HashSet<>();
 
 		int e1;
 
@@ -183,7 +182,8 @@ public class Program {
 			}
 		}
 
-		List<Pacient> ordenados=new ArrayList<Pacient>();
+		//TODO: Ordenar directamente en el array de edades
+		List<Pacient> ordenados=new ArrayList<>();
 		ordenados.addAll(edades);
 		Collections.sort(ordenados, Pacient.comparator);
 
@@ -204,6 +204,9 @@ public class Program {
 		}
 
 		///comparo segunda pos del array con el apellido introducido, si coincide lo guardo en array, comparator para ordenar con apellido
+
+		//TODO: Incompleto?
+		//TODO: Alfabéticamente según el nombre completo o solo el apellido introducido?
 	}
 
 	//2.8.4 Llistar pacients fins a pes concret ******************************************************************************************
@@ -211,12 +214,14 @@ public class Program {
 
 		ArrayList<Pacient> pes = new ArrayList<Pacient>();
 		
-		
+		//TODO: Hacer
 		
 	}
 
 	//2.8.5 Llistar pacients fins a alçada concreta **************************************************************************************
 	public void llistarAlcada(){
+
+		//TODO: Hacer
 
 	}
 
@@ -224,15 +229,19 @@ public class Program {
 	public void llistarTelf(){														
 
 		Scanner sc=new Scanner(System.in);
+		/*
 		System.out.println("Introdueix un primer nombre");
 		int num1=sc.nextInt();
 		System.out.println("Introdueix un segon nombre");
 		int num2=sc.nextInt();
 		System.out.println("Introdueix un tercer nombre");
 		int num3=sc.nextInt();																//FUNCIONA!!!!
+		*/
+		//TODO: No funciona así??
+		String nums = sc.nextLine();
 
 		ArrayList<String> telefonos = new ArrayList<String>();
-		String nums=String.valueOf(num1)+String.valueOf(num2)+String.valueOf(num3);
+		//String nums=String.valueOf(num1)+String.valueOf(num2)+String.valueOf(num3);
 
 		for(Pacient p:pacients){
 			String telfs=p.getTelf().substring(p.getTelf().length()-3);
@@ -269,16 +278,20 @@ public class Program {
 	//2.9.1 Estadistica per edat, pes i alçada *********************************************************************************************
 	public void estadisticaPesEdatAlt(){
 
+		//TODO: Hacer
+
 	}
 
 	//2.9.2 Estadistica per franja edat, pes o alçada, freqüencia ***************************************************************************
 	public void freqRangEdatPesAlt(){
 
+		//TODO: Hacer
+
 	}
 
 	//2.9.3 Quantitat pacients en llista espera *********************************************************************************************
 	public void quantitatEsperant(){
-		System.out.println("Hi ha "+esperaOp.size()+" pacient a la llista d'espera.\n");			//FUNCIONA!!!!
+		System.out.println("Hi ha "+esperaOp.size()+" pacient(s) a la llista d'espera.\n");			//FUNCIONA!!!!
 	}
 
 	//Menú Principal ************************************************************************************************************************
@@ -294,26 +307,22 @@ public class Program {
 					"4. Esborrar pacient\n5. Veure pacient\n6. Enviar pacient a llista d'espera\n" +
 					"7. Enviar pacient a operar\n8. Llistats\n9. Estadístiques\n0. Sortir");
 			System.out.println("\nIntrodueix una opció:");
-			opcio=sc.nextInt();
+			opcio=sc.nextInt(); sc.nextLine();
 
 			switch(opcio){
-
-			case 1:carregar();break;
-			case 2:nouPacient();break;													//CUANDO HACE EL BUCLE LA SEGUNDA VEZ PETA :S :S
-			case 3:arxivarPacient();break;
-			case 4:esborrarPacients();break;											//cuando lo pruebas dos veces me refiero
-			case 5:llistarPacient();break;
-			case 6:posarEspera();break;
-			case 7:operar();break;
-			case 8:llistatMenu();break;
-			case 9:estadistiquesMenu();break;
-			case 0:System.out.println("Fins aviat!!");break;
-			default: System.out.println("Opció incorrecta! [0-9]\n");
-			sc.nextLine();
+				case 1:carregar();break;
+				case 2:nouPacient();break;													//CUANDO HACE EL BUCLE LA SEGUNDA VEZ PETA :S :S
+				case 3:arxivarPacient();break;
+				case 4:esborrarPacients();break;											//cuando lo pruebas dos veces me refiero
+				case 5:llistarPacient();break;
+				case 6:posarEspera();break;
+				case 7:operar();break;
+				case 8:llistatMenu();break;
+				case 9:estadistiquesMenu();break;
+				case 0:System.out.println("Gràcies per utilitzar el nostre software.");break;
+				default: System.out.println("Opció incorrecta! [0-9]\n");
 			}
-
-
-		}while(opcio!=0);
+		} while(opcio!=0);
 		sc.close();
 	}
 
@@ -328,24 +337,21 @@ public class Program {
 				"4. Pel pes (kg)\n5. Per l'alçada\n6. Pel telèfon\n" +
 				"7. Llista d'espera\n");
 		System.out.println("\nIntrodueix una opció:");
-		opcio=sc.nextInt();
+		opcio=sc.nextInt(); sc.nextLine();
 
 		switch(opcio){
 
-		case 1:llistarPacients();break;
-		case 2:llistarEdats();break;
-		case 3:llistarCognom();break;
-		case 4:llistarPes();break;
-		case 5:llistarAlcada();break;
-		case 6:llistarTelf();break;
-		case 7:llistarEsperantOp();break;
-		default: System.out.println("Opció incorrecta! [1-7]\n");
-		sc.nextLine();
+			case 1:llistarPacients();break;
+			case 2:llistarEdats();break;
+			case 3:llistarCognom();break;
+			case 4:llistarPes();break;
+			case 5:llistarAlcada();break;
+			case 6:llistarTelf();break;
+			case 7:llistarEsperantOp();break;
+			default: System.out.println("Opció incorrecta! [1-7]\n");
 		}
 
 		sc.close();
-
-
 
 	}
 
@@ -358,7 +364,7 @@ public class Program {
 		System.out.println("1. Freqüents per l'edat, pes i alçada\n" +
 				"2. Freqüència de pes, edat o alçada\n3. Quantitat en llista d'espera\n");
 		System.out.println("\nIntrodueix una opció:");
-		opcio=sc.nextInt();
+		opcio=sc.nextInt(); sc.nextLine();
 
 		switch(opcio){
 
@@ -366,12 +372,9 @@ public class Program {
 		case 2:freqRangEdatPesAlt();break;
 		case 3:quantitatEsperant();break;
 		default: System.out.println("Opció incorrecta! [1-3]\n");
-		sc.nextLine();
 		}
 
 		sc.close();
-
-
 	}
 }
 

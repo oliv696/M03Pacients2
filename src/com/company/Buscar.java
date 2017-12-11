@@ -11,7 +11,7 @@ public class Buscar {
 		System.out.println("Per quin camp vols buscar el pacient?\n1)Nom\n2)Cognom\n" +
 				"3)DNI\n4)Edat\n5)Telèfon\n6)Alçada\n7)Pes");
 		Scanner sc=new Scanner(System.in);
-		int opcio=sc.nextInt();
+		int opcio=sc.nextInt();sc.nextLine();
 
 		Pacient pacient=null;
 		switch(opcio){
@@ -27,6 +27,12 @@ public class Buscar {
 		sc.close();
 		return pacient;
 	}
+
+	//TODO: Fallo de base: Buscar por nom, alçada, cognoms i pes solo devuelve el primero que encuentra, sin embargo
+	//varias personas pueden tener atributos iguales.
+	// Solución 1: Crear función auxiliar que muestre todos los que ha encontrado (y añadir a arraylist auxiliar de encontrados?)
+	// y pida al usuario cual de ellos hay que devolver
+	// Solución 2: Añadir esa función dentro de cada una
 
 	public static Pacient buscarNom(){
 
@@ -68,7 +74,10 @@ public class Buscar {
 		Pacient pacient=null;
 
 		boolean trobat=false;
-		
+
+		//TODO: Arreglar segundo apellido
+		//TODO: Buscar por los dos apellidos a la vez, o una operación para cada uno?
+		//TODO: Ordenar alfabéticamente
 		for(Pacient p:Program.pacients){
 																//NO FUNCIONA CON EL SEGUNDO APELLIDO!!!!! :S
 			String[] cognoms=p.getCognoms().split(" ");
@@ -165,7 +174,7 @@ public class Buscar {
 
 	public static Pacient buscarTelf(){	
 
-		System.out.println("Introdueix un DNI\n");
+		System.out.println("Introdueix un telèfon\n");
 		Scanner sc=new Scanner(System.in);
 		String telf=sc.nextLine();
 		Pacient pacient=null;
@@ -244,7 +253,7 @@ public class Buscar {
 					trobat=true;
 				}
 				if(!trobat){
-					System.out.println("No n'hi ha pacients amb aquesta alçada.");	
+					System.out.println("No n'hi ha pacients amb aquest pes.");
 				}
 			}
 			
