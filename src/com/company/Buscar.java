@@ -24,7 +24,7 @@ public class Buscar {
 		case 7:pacient=buscarPes();break;
 		default: System.out.println("Opció no vàlida [1-7]");
 		}
-		sc.close();
+		//sc.close();
 		return pacient;
 	}
 
@@ -34,7 +34,7 @@ public class Buscar {
 	// y pida al usuario cual de ellos hay que devolver
 	// Solución 2: Añadir esa función dentro de cada una
 
-	public static Pacient buscarNom(){
+	private static Pacient buscarNom(){
 
 		System.out.println("Introdueix un nom\n");
 		Scanner sc=new Scanner(System.in);
@@ -60,13 +60,13 @@ public class Buscar {
 				System.out.println("Pacient no trobat.");	//si tampoco estuviera, imprimimos mensaje
 			}
 		}
-		sc.close();
+		//sc.close();
 		return pacient;
 
 
 	}
 
-	public static Pacient buscarCognom(){
+    private static Pacient buscarCognom(){
 
 		System.out.println("Introdueix un cognom\n");
 		Scanner sc=new Scanner(System.in);
@@ -105,14 +105,14 @@ public class Buscar {
 				System.out.println("Pacient no trobat.");	
 			}
 		}
-		sc.close();
+		//sc.close();
 		return pacient;
 
 
 	}
 
 
-	public static Pacient buscarDni(){
+    private static Pacient buscarDni(){
 
 		System.out.println("Introdueix un DNI\n");
 		Scanner sc=new Scanner(System.in);
@@ -138,15 +138,15 @@ public class Buscar {
 				System.out.println("Pacient no trobat");	
 			}
 		}
-		sc.close();
+		//sc.close();
 		return pacient;
 	}
 
-	public static Pacient buscarEdat(){					////// ???????? no muy util...
+    private static Pacient buscarEdat(){					////// ???????? no muy util...
 
 		System.out.println("Introdueix una edat\n");
 		Scanner sc=new Scanner(System.in);
-		int edat=sc.nextInt();
+		int edat=sc.nextInt();sc.nextLine();
 		Pacient pacient=null;
 
 		boolean trobat=false;
@@ -168,11 +168,11 @@ public class Buscar {
 				System.out.println("Edad no trobada");	
 			}
 		}
-		sc.close();
+		//sc.close();
 		return pacient;
 	}
 
-	public static Pacient buscarTelf(){	
+    private static Pacient buscarTelf(){
 
 		System.out.println("Introdueix un telèfon\n");
 		Scanner sc=new Scanner(System.in);
@@ -198,15 +198,15 @@ public class Buscar {
 				System.out.println("Aquest telèfon no existeix.");	
 			}
 		}
-		sc.close();
+		//sc.close();
 		return pacient;
 	}
 
-	public static Pacient buscarAlcada(){	
+    private static Pacient buscarAlcada(){
 
 		System.out.println("Introdueix una alçada en cm\n");
 		Scanner sc=new Scanner(System.in);
-		int alcada=sc.nextInt();
+		int alcada=sc.nextInt();sc.nextLine();
 		Pacient pacient=null;
 
 		boolean trobat=false;
@@ -227,11 +227,13 @@ public class Buscar {
 					System.out.println("No n'hi ha pacients amb aquesta alçada.");	
 				}
 			}
-		}sc.close();
+		}
+
+		//sc.close();
 		return pacient;
 	}
 
-	public static Pacient buscarPes(){	
+    private static Pacient buscarPes(){
 
 		System.out.println("Introdueix un pes en kg.\n");
 		Scanner sc=new Scanner(System.in);
@@ -257,7 +259,8 @@ public class Buscar {
 				}
 			}
 			
-		}sc.close();
+		}
+		//sc.close();
 		return pacient;
 	}
 

@@ -1,7 +1,6 @@
 package com.company;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -12,7 +11,9 @@ import java.util.*;
 public class Program {   
 
 	DateTimeFormatter format=DateTimeFormatter.ofPattern("d/MM/yyy");
-	static String fichero="/home/oliv/pacients.csv";
+
+	//TODO: Quitar antes de entregar. Borrar también el fichero del proyecto
+	static String rutaFitxer ="pacients.csv";
 
 	static Set<Pacient> pacients = new HashSet<>();
 	static Set<Pacient> pacientsArxivats = new HashSet<>();
@@ -23,28 +24,52 @@ public class Program {
 	//2.1 Carregar pacients desde CSV ******************************************************************************************
 	public void carregar()throws IOException, ClassNotFoundException {
 
-		BufferedReader br = new BufferedReader(new FileReader(new File(fichero)));
-		String line;
-		while ((line = br.readLine()) != null) {											//FUNCIONA!!!!
+		//TODO: Descomentar antes de entregar
+		Scanner scanner= new Scanner(System.in);
+		System.out.println("Introdueix la ruta del fitxer: ");
+		rutaFitxer =scanner.nextLine();
+		File fitxer=new File(rutaFitxer);
 
-			String[] entries = line.split(",");
+		if (!fitxer.exists()) {
+			System.out.println("El fitxer no existeix");
+		} else {
+			BufferedReader br = new BufferedReader(new FileReader(fitxer));
+			String line;
 
-			Pacient pacient = new Pacient(entries[1], entries[2], LocalDate.parse(entries[3],format),
-					Persona.Genere.valueOf(entries[4].toUpperCase()), Double.parseDouble(entries[7]),
-					Double.parseDouble(entries[6]),entries[5], entries[0]);
+			int afegits=0,repetits=0;
+			while ((line = br.readLine()) != null) {											//FUNCIONA!!!!
 
-			if(pacients.contains(pacient)){
-				// TODO: S'ha eliminat o no s'ha carregat?
-				System.out.println("S'ha eliminat un pacient repetit.\n");    //només per missatge (hashSet)
-			}else{
-				pacients.add(pacient);										  //añadimos el paciente 
+				String[] entries = line.split(",");
+
+				Pacient pacient = new Pacient(entries[1], entries[2], LocalDate.parse(entries[3],format),
+						Persona.Genere.valueOf(entries[4].toUpperCase()), Double.parseDouble(entries[7]),
+						Double.parseDouble(entries[6]),entries[5], entries[0]);
+
+				if(pacients.contains(pacient)){
+					repetits++;
+				}else{
+					pacients.add(pacient);										  //añadimos el paciente
+					afegits++;
+				}
+
+
 			}
-		}
-		br.close();
+			if (afegits>0) {
+				System.out.println("S'han carregat " + afegits + " pacients.");
+				if (repetits>0) {
+					System.out.println("S'ha(n) omès " + repetits +" pacient(s) repetit(s).\n");
+				}
+			} else {
+				System.out.println("No s'ha carregat cap pacient.");
+			}
+			br.close();
 
-		//				for(Pacient p:pacients) {
-		//					System.out.println(p);
-		//				}
+			//				for(Pacient p:pacients) {
+			//					System.out.println(p);
+			//				}
+		}
+
+
 	}
 
 
@@ -55,7 +80,7 @@ public class Program {
 		System.out.println("Nom: ");
 		String nom=sc.nextLine();
 
-		System.out.println("Cognom: ");
+		System.out.println("Cognoms: ");
 		String cognom=sc.nextLine();
 
 		System.out.println("Data de naixement: [dd/mm/yyyy]");
@@ -80,7 +105,7 @@ public class Program {
 		String dni=sc.nextLine();
 
 		Pacient p=new Pacient(nom,cognom,data, Persona.Genere.valueOf(genere),alcada,pes,telf,dni);
-		sc.close();
+		//sc.close();
 
 		//TODO: Hay que convertir esto en un while ("si aquest pacient ja existeix (DNI repetit) s’avisa del error i es repeteix l’operació")
 		if(pacients.contains(p)){
@@ -163,7 +188,7 @@ public class Program {
 		int edat1=sc.nextInt();sc.nextLine();
 		System.out.println("Introdueix una edat màxima");
 		int edat2=sc.nextInt();sc.nextLine();
-		sc.close();
+		//sc.close();
 
 		Set<Pacient> edades = new HashSet<>();
 
@@ -212,7 +237,7 @@ public class Program {
 	//2.8.4 Llistar pacients fins a pes concret ******************************************************************************************
 	public void llistarPes(){
 
-		ArrayList<Pacient> pes = new ArrayList<Pacient>();
+		List<Pacient> pes = new ArrayList<>();
 		
 		//TODO: Hacer
 		
@@ -240,7 +265,7 @@ public class Program {
 		//TODO: No funciona así??
 		String nums = sc.nextLine();
 
-		ArrayList<String> telefonos = new ArrayList<String>();
+		List<String> telefonos = new ArrayList<>();
 		//String nums=String.valueOf(num1)+String.valueOf(num2)+String.valueOf(num3);
 
 		for(Pacient p:pacients){
@@ -263,7 +288,7 @@ public class Program {
 				System.out.println(t);
 			}
 		}
-		sc.close();
+		//sc.close();
 		System.out.println("\n");
 	}
 
@@ -299,7 +324,7 @@ public class Program {
 
 
 		System.out.println("\n*********Benvingut/da!*********\n");
-		Scanner sc=new Scanner(System.in);
+
 		int opcio;
 		do{
 			System.out.println("Menú Principal:");
@@ -307,7 +332,8 @@ public class Program {
 					"4. Esborrar pacient\n5. Veure pacient\n6. Enviar pacient a llista d'espera\n" +
 					"7. Enviar pacient a operar\n8. Llistats\n9. Estadístiques\n0. Sortir");
 			System.out.println("\nIntrodueix una opció:");
-			opcio=sc.nextInt(); sc.nextLine();
+			Scanner sc=new Scanner(System.in);
+			opcio=Integer.parseInt(sc.nextLine());
 
 			switch(opcio){
 				case 1:carregar();break;
@@ -322,8 +348,9 @@ public class Program {
 				case 0:System.out.println("Gràcies per utilitzar el nostre software.");break;
 				default: System.out.println("Opció incorrecta! [0-9]\n");
 			}
+			//sc.close();
 		} while(opcio!=0);
-		sc.close();
+
 	}
 
 	// Submenu para los listados *************************************************************************************************************
@@ -337,7 +364,7 @@ public class Program {
 				"4. Pel pes (kg)\n5. Per l'alçada\n6. Pel telèfon\n" +
 				"7. Llista d'espera\n");
 		System.out.println("\nIntrodueix una opció:");
-		opcio=sc.nextInt(); sc.nextLine();
+		opcio=Integer.parseInt(sc.nextLine());
 
 		switch(opcio){
 
@@ -351,7 +378,7 @@ public class Program {
 			default: System.out.println("Opció incorrecta! [1-7]\n");
 		}
 
-		sc.close();
+		//sc.close();
 
 	}
 
@@ -364,7 +391,7 @@ public class Program {
 		System.out.println("1. Freqüents per l'edat, pes i alçada\n" +
 				"2. Freqüència de pes, edat o alçada\n3. Quantitat en llista d'espera\n");
 		System.out.println("\nIntrodueix una opció:");
-		opcio=sc.nextInt(); sc.nextLine();
+		opcio=Integer.parseInt(sc.nextLine());
 
 		switch(opcio){
 
@@ -374,7 +401,7 @@ public class Program {
 		default: System.out.println("Opció incorrecta! [1-3]\n");
 		}
 
-		sc.close();
+		//sc.close();
 	}
 }
 
