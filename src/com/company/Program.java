@@ -240,17 +240,33 @@ public class Program {
 
 	//2.8.3 Llistar pacients amb el mateix cognom, alfabeticament *************************************************************************
 	public void llistarCognom(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Introdueix un cognom: ");
+        String cognom = scanner.nextLine();
 
-		String[] tmp;
+        List<Pacient> trobats = new ArrayList<>();
 
-		for(Pacient p:pacients){
-			tmp=p.getCognoms().split(" ");
-		}
+        for(Pacient p : pacients) {
+            if (p.getCognoms().toLowerCase().contains(cognom.toLowerCase())) {
+                trobats.add(p);
+            }
+        }
+
+        for(Pacient p : pacientsArxivats) {
+            if (p.getCognoms().toLowerCase().contains(cognom.toLowerCase())) {
+                trobats.add(p);
+            }
+        }
+
+        Collections.sort(trobats, Comparator.comparing(Persona::getCognoms));
+
+        trobats.stream().forEach(System.out::println);
 
 		///comparo segunda pos del array con el apellido introducido, si coincide lo guardo en array, comparator para ordenar con apellido
 
 		//TODO: Incompleto?
 		//TODO: Alfabéticamente según el nombre completo o solo el apellido introducido?
+        //TODO: Apellidos con dos palabras? "Del Campo" -> Mirar si un string está dentro de otro, sin separar por espacio
 	}
 
 	//2.8.4 Llistar pacients fins a pes concret ******************************************************************************************
