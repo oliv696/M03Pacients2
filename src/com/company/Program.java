@@ -398,6 +398,27 @@ public class Program {
 	}
 	//2.9.1 Estadistica per edat, pes i alçada *********************************************************************************************
 	public void estadisticaPesEdatAlt(){
+		System.out.println("=== ESTADÍSTIQUES PER PES ===");
+		Map<Double,Integer> statsPes = new TreeMap<>();
+
+		for(Pacient p: pacients) {
+			statsPes.merge(p.getPes(), 1, Integer::sum);
+		}
+
+		for(Pacient p: pacientsArxivats) {
+			statsPes.merge(p.getPes(), 1, Integer::sum);
+		}
+
+		List<Map.Entry<Double,Integer>> statsPesList = new ArrayList<>(statsPes.entrySet());
+
+		Collections.sort(statsPesList, Comparator.comparing(Map.Entry::getValue));
+
+		ListIterator<Map.Entry<Double,Integer>> iterator = statsPesList.listIterator(statsPesList.size());
+
+		while (iterator.hasPrevious()) {
+			Map.Entry<Double,Integer> entry = iterator.previous();
+			System.out.println(entry.getKey() + "kg: " + entry.getValue() + " pacient(s)");
+		}
 
 		//TODO: Hacer
 

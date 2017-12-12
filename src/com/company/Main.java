@@ -8,6 +8,11 @@ public class Main {
 
 
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
+
+		//TODO: java.util.InputMismatchException al meter doubles
+		//TODO: Arreglar buscar por cognoms
+		//TODO: Cambiar lista de espera a cola?
+
 		Program p=new Program();
 		//p.carregar();
 		//p.nouPacient(); 
