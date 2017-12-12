@@ -1,14 +1,12 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Buscar {
 
 	//**************************************************************
 
-	public static Pacient buscarMenu(){
+	public static Pacient buscarMenu(boolean toSelect){
 
 		System.out.println("Per quin camp vols buscar el pacient?\n1)Nom\n2)Cognom\n" +
 				"3)DNI\n4)Edat\n5)Telèfon\n6)Alçada\n7)Pes");
@@ -17,34 +15,31 @@ public class Buscar {
 
 		Pacient pacient=null;
 		switch(opcio){
-		case 1:pacient=buscarNom(); break;
-		case 2:pacient=buscarCognom(); break;
+		case 1:pacient=buscarNom(toSelect); break;
+		case 2:pacient=buscarCognom(toSelect); break;
 		case 3:pacient=buscarDni();break;
-		case 4:pacient=buscarEdat();break;
-		case 5:pacient=buscarTelf();break;
-		case 6:pacient=buscarAlcada();break;
-		case 7:pacient=buscarPes();break;
+		case 4:pacient=buscarEdat(toSelect);break;
+		case 5:pacient=buscarTelf(toSelect);break;
+		case 6:pacient=buscarAlcada(toSelect);break;
+		case 7:pacient=buscarPes(toSelect);break;
 		default: System.out.println("Opció no vàlida [1-7]");
 		}
 		//sc.close();
 		return pacient;
 	}
 
-	//TODO: Fallo de base: Buscar por nom, alçada, cognoms i pes solo devuelve el primero que encuentra, sin embargo
+	//CORREGIDO: Fallo de base: Buscar por nom, alçada, cognoms i pes solo devuelve el primero que encuentra, sin embargo
 	//varias personas pueden tener atributos iguales.
 	// Solución 1: Crear función auxiliar que muestre todos los que ha encontrado (y añadir a arraylist auxiliar de encontrados?)
 	// y pida al usuario cual de ellos hay que devolver
 	// Solución 2: Añadir esa función dentro de cada una
 	//GUARDAR INDICE EN CADA PASO EN ARRAY INTEGER
 
-	//TODO: Hacer solo lo de elegir 1 paciente cuando sea necesario (enviar alguien a algo, etc.), no para buscar.
+	//CORREGIDO: Hacer solo lo de elegir 1 paciente cuando sea necesario (enviar alguien a algo, etc.), no para buscar.
 	//Solución: Parámetro booleano
 
 	private static Pacient seleccionarPacient(List<Pacient> pacients) {
 		Scanner scanner = new Scanner(System.in);
-		for (int i = 0; i < pacients.size(); i++) {
-			System.out.println("[" + (i+1) + "]" + " " + pacients.get(i));
-		}
 
 		System.out.println("\nSelecciona el pacient: ");
 		int seleccio = Integer.parseInt(scanner.nextLine());
@@ -57,39 +52,10 @@ public class Buscar {
 		return pacients.get((seleccio-1));
 	}
 
-	private static Pacient buscarNom(){
-
-		/*
-		System.out.println("Introdueix un nom\n");
+	private static Pacient buscarNom(boolean toSelect){
 		Scanner sc=new Scanner(System.in);
-		String nom=sc.nextLine();
-		Pacient pacient=null;
-
-		boolean trobat=false;
-
-		for(Pacient p:Program.pacients){				//buscamos en lista pacients
-			if(p.getNom().equalsIgnoreCase(nom)){
-				trobat=true;
-				pacient=p;
-			}
-		}
-		if(!trobat){									//si no está, lo buscamos en la lista arxivats
-			for(Pacient pa:Program.pacientsArxivats){
-				if(pa.getNom().equalsIgnoreCase(nom)){	
-					trobat=true;
-					pacient=pa;
-				}
-			}
-			if(!trobat){
-				System.out.println("Pacient no trobat.");	//si tampoco estuviera, imprimimos mensaje
-			}
-		}
-		//sc.close();
-
-		*/
 
 		System.out.println("Introdueix un nom: ");
-		Scanner sc=new Scanner(System.in);
 		String nom=sc.nextLine();
 
 		Pacient pacient=null;
@@ -107,73 +73,71 @@ public class Buscar {
 			}
 		}
 
-		if (trobats.size()>1) {
+		if (trobats.size() == 0) {
+			System.out.println("Pacient no trobat");
+		} else {
+			System.out.printf("    ");
+			Program.printHeader();
+			for (int i = 0; i < trobats.size(); i++) {
+				System.out.println("[" + (i+1) + "] " + trobats.get(i));
+			}
+		}
+
+		if (trobats.size()>1 && toSelect) {
 			pacient=seleccionarPacient(trobats);
+		}
+
+		return pacient;
+	}
+
+	static Pacient buscarCognom(boolean toSelect){
+		Scanner sc=new Scanner(System.in);
+
+		System.out.println("Introdueix un cognom: ");
+		String cognom=sc.nextLine();
+
+		Pacient pacient=null;
+		List<Pacient> trobats = new ArrayList<>();
+
+		for(Pacient p : Program.pacients) {
+			if (p.getCognoms().toLowerCase().contains(cognom.toLowerCase())) {
+				trobats.add(p);
+			}
+		}
+
+		for(Pacient p : Program.pacientsArxivats) {
+			if (p.getCognoms().toLowerCase().contains(cognom.toLowerCase())) {
+				trobats.add(p);
+			}
 		}
 
 		if (trobats.size() == 0) {
 			System.out.println("Pacient no trobat");
+		} else {
+			System.out.printf("    ");
+			Program.printHeader();
+			for (int i = 0; i < trobats.size(); i++) {
+				System.out.println("[" + (i+1) + "]" + " " + trobats.get(i));
+			}
+		}
+
+		if (trobats.size()>1 && toSelect) {
+			pacient=seleccionarPacient(trobats);
 		}
 
 		return pacient;
-	}
-
-    private static Pacient buscarCognom(){
-
-		System.out.println("Introdueix un cognom\n");
-		Scanner sc=new Scanner(System.in);
-		String cognom=sc.nextLine();
-		Pacient pacient=null;
-
-		boolean trobat=false;
-
-		//TODO: Arreglar segundo apellido
-		//TODO: Buscar por los dos apellidos a la vez, o una operación para cada uno?
-		//TODO: Ordenar alfabéticamente
-		for(Pacient p:Program.pacients){
-																//NO FUNCIONA CON EL SEGUNDO APELLIDO!!!!! :S
-			String[] cognoms=p.getCognoms().split(" ");
-			
-			if(cognoms[0].equalsIgnoreCase(cognom) ){			//SI CAMBIAS A [1] QUE ES 2º APELL PETA!
-				trobat=true;
-				pacient=p;
-				System.out.println(cognoms.length);
-				System.out.println(cognoms[0]+" "+cognoms[1]);	//LO RARO ESQ AQUI LO IMPRIME BIEN
-				
-			}
-		}
-		if(!trobat){	
-			
-			for(Pacient pa:Program.pacientsArxivats){
-				String[] cognoms=pa.getCognoms().split(" ");
-				
-				if(cognoms[0].equalsIgnoreCase(cognom)){
-					trobat=true;
-					pacient=pa;
-					//System.out.println(pa);
-				}
-			}
-			if(!trobat){
-				System.out.println("Pacient no trobat.");	
-			}
-		}
-		//sc.close();
-		return pacient;
-
-
 	}
 
 
     private static Pacient buscarDni(){
-
-		System.out.println("Introdueix un DNI\n");
+		System.out.println("Introdueix un DNI: ");
 		Scanner sc=new Scanner(System.in);
 		String dni=sc.nextLine();
 		Pacient pacient=null;
 
 		boolean trobat=false;
 
-		for(Pacient p:Program.pacients){				
+		for(Pacient p:Program.pacients){
 			if(p.getDni().equalsIgnoreCase(dni)){	
 				pacient=p;
 				trobat=true;
@@ -194,125 +158,157 @@ public class Buscar {
 		return pacient;
 	}
 
-    private static Pacient buscarEdat(){					////// ???????? no muy util...
-
-		System.out.println("Introdueix una edat\n");
+    private static Pacient buscarEdat(boolean toSelect){
 		Scanner sc=new Scanner(System.in);
-		int edat=sc.nextInt();sc.nextLine();
+
+		System.out.println("Introdueix una edat: ");
+		int edat=Integer.parseInt(sc.nextLine());
+
 		Pacient pacient=null;
+		List<Pacient> trobats = new ArrayList<>();
 
-		boolean trobat=false;
-
-		for(Pacient p:Program.pacients){				
-			if(p.obtenirEdad()==edat){	
-				pacient=p;
-				trobat=true;
+		for(Pacient p:Program.pacients){
+			if (edat==p.obtenirEdad()) {
+				trobats.add(p);
 			}
 		}
-		if(!trobat){									
-			for(Pacient p:Program.pacientsArxivats){	
-				if(p.obtenirEdad()==edat){	
-					pacient=p;
-					trobat=true;
-				}
-			}
-			if(!trobat){
-				System.out.println("Edad no trobada");	
+
+		for(Pacient p:Program.pacientsArxivats){
+			if (edat==p.obtenirEdad()) {
+				trobats.add(p);
 			}
 		}
-		//sc.close();
+
+		if (trobats.size() == 0) {
+			System.out.println("Pacient no trobat");
+		} else {
+			System.out.printf("    ");
+			Program.printHeader();
+			for (int i = 0; i < trobats.size(); i++) {
+				System.out.println("[" + (i+1) + "]" + " " + trobats.get(i));
+			}
+		}
+
+		if (trobats.size()>1 && toSelect) {
+			pacient=seleccionarPacient(trobats);
+		}
+
 		return pacient;
 	}
 
-    private static Pacient buscarTelf(){
-
-		System.out.println("Introdueix un telèfon\n");
+    private static Pacient buscarTelf(boolean toSelect){
 		Scanner sc=new Scanner(System.in);
-		String telf=sc.nextLine();
+
+		System.out.println("Introdueix un telèfon: ");
+		String telefon=sc.nextLine();
+
 		Pacient pacient=null;
+		List<Pacient> trobats = new ArrayList<>();
 
-		boolean trobat=false;
-
-		for(Pacient p:Program.pacients){				
-			if(p.getTelf().equalsIgnoreCase(telf)){	
-				pacient=p;
-				trobat=true;
+		for(Pacient p:Program.pacients){
+			if (telefon.equals(p.getTelf())) {
+				trobats.add(p);
 			}
 		}
-		if(!trobat){									
-			for(Pacient pa:Program.pacientsArxivats){
-				if(pa.getTelf().equalsIgnoreCase(telf)){	
-					trobat=true;
-					pacient=pa;
-				}
-			}
-			if(!trobat){
-				System.out.println("Aquest telèfon no existeix.");	
+
+		for(Pacient p:Program.pacientsArxivats){
+			if (telefon.equals(p.getTelf())) {
+				trobats.add(p);
 			}
 		}
-		//sc.close();
+
+		if (trobats.size() == 0) {
+			System.out.println("Pacient no trobat");
+		} else {
+			System.out.printf("    ");
+			Program.printHeader();
+			for (int i = 0; i < trobats.size(); i++) {
+				System.out.println("[" + (i+1) + "]" + " " + trobats.get(i));
+			}
+		}
+
+		if (trobats.size()>1 && toSelect) {
+			pacient=seleccionarPacient(trobats);
+		}
+
 		return pacient;
 	}
 
-    private static Pacient buscarAlcada(){
-
-		System.out.println("Introdueix una alçada en cm\n");
+    private static Pacient buscarAlcada(boolean toSelect){
 		Scanner sc=new Scanner(System.in);
-		int alcada=sc.nextInt();sc.nextLine();
+
+		System.out.println("Introdueix una alçada en cm: ");
+		double alcada=Double.parseDouble(sc.nextLine());
+
 		Pacient pacient=null;
+		List<Pacient> trobats = new ArrayList<>();
 
-		boolean trobat=false;
-
-		for(Pacient p:Program.pacients){				
-			if(p.getAlcada()==alcada){	
-				pacient=p;
-				trobat=true;
-			}
-		}
-		if(!trobat){									
-			for(Pacient p:Program.pacientsArxivats){	
-				if(p.getAlcada()==alcada){	
-					pacient=p;
-					trobat=true;
-				}
-				if(!trobat){
-					System.out.println("No n'hi ha pacients amb aquesta alçada.");	
-				}
+		for(Pacient p:Program.pacients){
+			if (alcada == p.getAlcada()) {
+				trobats.add(p);
 			}
 		}
 
-		//sc.close();
+		for(Pacient p:Program.pacientsArxivats){
+			if (alcada == p.getAlcada()) {
+				trobats.add(p);
+			}
+		}
+
+		if (trobats.size() == 0) {
+			System.out.println("Pacient no trobat");
+		} else {
+			System.out.printf("    ");
+			Program.printHeader();
+			for (int i = 0; i < trobats.size(); i++) {
+				System.out.println("[" + (i+1) + "]" + " " + trobats.get(i));
+			}
+		}
+
+		if (trobats.size()>1 && toSelect) {
+			pacient=seleccionarPacient(trobats);
+		}
+
 		return pacient;
 	}
 
-    private static Pacient buscarPes(){
+    private static Pacient buscarPes(boolean toSelect){
 
 		System.out.println("Introdueix un pes en kg.\n");
 		Scanner sc=new Scanner(System.in);
-		int pes=sc.nextInt();
+
+		System.out.println("Introdueix una alçada en cm: ");
+		double pes=Double.parseDouble(sc.nextLine());
+
 		Pacient pacient=null;
+		List<Pacient> trobats = new ArrayList<>();
 
-		boolean trobat=false;
-
-		for(Pacient p:Program.pacients){				
-			if(p.getPes()==pes){	
-				pacient=p;
-				trobat=true;
+		for(Pacient p:Program.pacients){
+			if (pes == p.getPes()) {
+				trobats.add(p);
 			}
 		}
-		if(!trobat){									
-			for(Pacient p:Program.pacientsArxivats){	
-				if(p.getPes()==pes){	
-					pacient=p;
-					trobat=true;
-				}
-				if(!trobat){
-					System.out.println("No n'hi ha pacients amb aquest pes.");
-				}
+
+		for(Pacient p:Program.pacientsArxivats){
+			if (pes == p.getPes()) {
+				trobats.add(p);
 			}
-			
 		}
-		//sc.close();
+
+		if (trobats.size() == 0) {
+			System.out.println("Pacient no trobat");
+		} else {
+			System.out.printf("    ");
+			Program.printHeader();
+			for (int i = 0; i < trobats.size(); i++) {
+				System.out.println("[" + (i+1) + "]" + " " + trobats.get(i));
+			}
+		}
+
+		if (trobats.size()>1 && toSelect) {
+			pacient=seleccionarPacient(trobats);
+		}
+
 		return pacient;
 	}
 

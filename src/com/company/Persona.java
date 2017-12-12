@@ -64,13 +64,11 @@ public class Persona {
 		this.genere = genere;
 	}
 
-
-	//TODO: Convertir a tabla
 	@Override
 	public String toString() {
 		return "Persona " +
 				"\n-------"+
-				"\nNombre: " + nom +
+				"\nNom: " + nom +
 				"\nCognoms: " + cognoms + 
 				"\nData de naixement: "+dataNaix+
 				"\nGènere: "+genere+

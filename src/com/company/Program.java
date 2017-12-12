@@ -62,10 +62,6 @@ public class Program {
 				System.out.println("No s'ha carregat cap pacient.");
 			}
 			br.close();
-
-			//				for(Pacient p:pacients) {
-			//					System.out.println(p);
-			//				}
 		}
 	}
 
@@ -124,19 +120,13 @@ public class Program {
         } else {
             System.out.println("Tornant al menú principal...");
         }
-
-
-
-		//sc.close();
-
-
 	}
 
 
 	//2.3 Arxivar pacient ***********************************************************************************************************
 	public void arxivarPacient() throws ClassNotFoundException, IOException{
 
-		Pacient p=Buscar.buscarMenu();
+		Pacient p=Buscar.buscarMenu(true);
 		if(p!=null){
 			pacients.remove(p);																//FUNCIONA!!!!
 			pacientsArxivats.add(p);		
@@ -147,7 +137,7 @@ public class Program {
 	//2.4 Esborrar pacient *************************************************************************************************************
 	public void esborrarPacients(){
 
-		Pacient p=Buscar.buscarMenu();
+		Pacient p=Buscar.buscarMenu(true);
 
 		if(p!=null){
 			pacients.remove(p);																//FUNCIONA!!!!
@@ -157,11 +147,12 @@ public class Program {
 	}
 
 	//2.5 Veure pacient ******************************************************************************************************************
-	public void llistarPacient(){
+	public void veurePacient(){
 
-		Pacient p=Buscar.buscarMenu();			
+		Pacient p=Buscar.buscarMenu(false);
 																								//FUNCIONA!!!!
-		if(p!=null){	
+		if(p!=null){
+			printHeader();
 			System.out.println(p);
 		}
 		System.out.println("\n");
@@ -171,7 +162,7 @@ public class Program {
 	//2.6 Posar pacient en llista d'espera *********************************************************************************************
 	public void posarEspera(){
 
-		Pacient p=Buscar.buscarMenu();
+		Pacient p=Buscar.buscarMenu(true);
 
 		if(p!=null){																	//FUNCIONA!!!!
 			esperaOp.add(p);
@@ -183,7 +174,7 @@ public class Program {
 	//2.7 Enviar pacient a operar **********************************************************************************************************
 	public void operar(){
 
-		Pacient p=Buscar.buscarMenu();
+		Pacient p=Buscar.buscarMenu(true);
 
 		if(p!=null){																	//FUNCIONA!!!!
 			esperaOp.remove(p);
@@ -194,7 +185,7 @@ public class Program {
 	//2.8.1 Cercar pacients  **************************************************************************************************************
 	public void llistarPacients(){ 
 
-		System.out.println(Buscar.buscarMenu());							//FALTA, ya que solo listaría uno
+		Buscar.buscarMenu(false);							//FALTA, ya que solo listaría uno
 	}
 
 
@@ -205,7 +196,6 @@ public class Program {
 		int edat1=sc.nextInt();sc.nextLine();
 		System.out.println("Introdueix una edat màxima");
 		int edat2=sc.nextInt();sc.nextLine();
-		//sc.close();
 
 		Set<Pacient> edades = new HashSet<>();
 
@@ -228,21 +218,26 @@ public class Program {
 		ordenados.addAll(edades);
 		Collections.sort(ordenados, Pacient.comparator);
 
-		if (!noPrint) {
+		if (!noPrint && !ordenados.isEmpty()) {
+			Program.printHeader();
 			for(Pacient p:ordenados){
 				System.out.println(p);
 			}
 			System.out.println("\n");
 		}
 
+		if (!ordenados.isEmpty()) {
+			System.out.println("No s'ha trobat cap pacient en aquest rang d'edats.");
+		}
 
 		return ordenados.size();
 	}
 
-
+	//TODO: Explicar al profe la reutilización
 	//2.8.3 Llistar pacients amb el mateix cognom, alfabeticament *************************************************************************
 	public void llistarCognom(){
-        Scanner scanner = new Scanner(System.in);
+		Buscar.buscarCognom(false);
+        /*Scanner scanner = new Scanner(System.in);
         System.out.println("Introdueix un cognom: ");
         String cognom = scanner.nextLine();
 
@@ -263,12 +258,9 @@ public class Program {
         Collections.sort(trobats, Comparator.comparing(Persona::getCognoms));
 
         trobats.stream().forEach(System.out::println);
+        */
 
 		///comparo segunda pos del array con el apellido introducido, si coincide lo guardo en array, comparator para ordenar con apellido
-
-		//TODO: Incompleto?
-		//TODO: Alfabéticamente según el nombre completo o solo el apellido introducido?
-        //TODO: Apellidos con dos palabras? "Del Campo" -> Mirar si un string está dentro de otro, sin separar por espacio
 	}
 
 	//2.8.4 Llistar pacients fins a pes concret ******************************************************************************************
@@ -303,7 +295,8 @@ public class Program {
                 }
             });
 
-            for (Pacient p : trobats) {
+			Program.printHeader();
+			for (Pacient p : trobats) {
                 System.out.println(p);
             }
         }
@@ -340,7 +333,7 @@ public class Program {
                     return 1;
                 }
             });
-
+			Program.printHeader();
             for (Pacient p : trobats) {
                 System.out.println(p);
             }
@@ -386,17 +379,21 @@ public class Program {
             }
         }
 
-		//sc.close();
 		System.out.println("\n");
 	}
 
 	//2.8.7 Imprimir pacients llista espera ***********************************************************************************************
 	public void llistarEsperantOp(){
-
-		for(Pacient p:esperaOp){															//FUNCIONA!!!!
-			System.out.println(p);
+		if (! esperaOp.isEmpty()) {
+			for(Pacient p:esperaOp){
+				Program.printHeader();
+				System.out.println(p);
+			}
+			System.out.println("\n");
+		} else {
+			System.out.println("No hi ha cap pacient en llista d'espera.");
 		}
-		System.out.println("\n");
+
 	}
 	//2.9.1 Estadistica per edat, pes i alçada *********************************************************************************************
 	public void estadisticaPesEdatAlt(){
@@ -464,7 +461,11 @@ public class Program {
 		switch (opcioRang) {
 			//Edat
 			case 1:
-				System.out.println("Ni ha " + llistarEdats(true) + " pacients en aquest rang.");
+				int trobatsEdat=llistarEdats(true);
+				if (trobatsEdat != 0) {
+					System.out.println("Hi ha " + llistarEdats(true) + " pacients en aquest rang.");
+				}
+
 				break;
 			//Pes
 			case 2:
@@ -538,7 +539,8 @@ public class Program {
 				case 2:nouPacient();break;													//CUANDO HACE EL BUCLE LA SEGUNDA VEZ PETA :S :S
 				case 3:arxivarPacient();break;
 				case 4:esborrarPacients();break;											//cuando lo pruebas dos veces me refiero
-				case 5:llistarPacient();break;
+				case 5:
+					veurePacient();break;
 				case 6:posarEspera();break;
 				case 7:operar();break;
 				case 8:llistatMenu();break;
@@ -546,7 +548,6 @@ public class Program {
 				case 0:System.out.println("Gràcies per utilitzar el nostre software.");break;
 				default: System.out.println("Opció incorrecta! [0-9]\n");
 			}
-			//sc.close();
 		} while(opcio!=0);
 
 	}
@@ -558,8 +559,8 @@ public class Program {
 		Scanner sc=new Scanner(System.in);
 		int opcio;
 
-		System.out.println("1. Pel nom, cognom, o Dni\n2. Per rang d'edat\n3. Pel cognom\n" +
-				"4. Pel pes (kg)\n5. Per l'alçada\n6. Pel telèfon\n" +
+		System.out.println("1. Pel nom, cognom, DNI o qualsevol atribut\n2. Per rang d'edat\n3. Pel cognom\n" +
+				"4. Per màxim de pes (kg)\n5. Per màxim d'alçada\n6. Per terminació telefònica\n" +
 				"7. Llista d'espera\n");
 		System.out.println("\nIntrodueix una opció:");
 		opcio=Integer.parseInt(sc.nextLine());
@@ -575,9 +576,6 @@ public class Program {
 			case 7:llistarEsperantOp();break;
 			default: System.out.println("Opció incorrecta! [1-7]\n");
 		}
-
-		//sc.close();
-
 	}
 
 	// Submenu para las estadisticas **********************************************************************************************************
@@ -598,8 +596,6 @@ public class Program {
 		case 3:quantitatEsperant();break;
 		default: System.out.println("Opció incorrecta! [1-3]\n");
 		}
-
-		//sc.close();
 	}
 
 	private int estadistiquesSubmenu() {
@@ -609,10 +605,8 @@ public class Program {
 		System.out.println("Introdueix una opció: ");
 		return Integer.parseInt(new Scanner(System.in).nextLine());
 	}
+
+	public static void printHeader() {
+		System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n","NOM","COGNOMS","DATA NAIXEMENT","GÈNERE","ALÇADA","PES","TELÈFON","DNI");
+	}
 }
-
-
-
-
-
-

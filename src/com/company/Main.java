@@ -9,17 +9,17 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
 
-		//TODO: java.util.InputMismatchException al meter doubles
-		//TODO: Arreglar buscar por cognoms
-		//TODO: Cambiar lista de espera a cola?
-		//TODO: Arreglar devolver más de un paciente en listados
+		//TODO: Revisar - java.util.InputMismatchException al meter doubles
+		//TODO: CORREGIDO?? Arreglar buscar por cognoms (comprobar, preguntar al profe)
+		//TODO: Cambiar lista de espera a cola? (preguntar al profe)
+		//CORREGIDO: Arreglar devolver más de un paciente en listados
 
 		Program p=new Program();
 		//p.carregar();
 		//p.nouPacient(); 
 		//p.arxivarPacient();
 		//p.esborrarPacients();
-		//p.llistarPacient();
+		//p.veurePacient();
 		//	p.cercarP();
 		//p.posarEspera();
 		//p.operar();

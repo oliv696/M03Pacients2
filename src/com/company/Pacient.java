@@ -36,16 +36,17 @@ public class Pacient extends Persona implements Serializable,Comparable{
 
     @Override
 	public String toString() {
-		return "Pacient  " +
-				"\n-------"+
-				"\nNombre: " + this.getNom() +
-				"\nCognoms: " + this.getCognoms() +
-				"\nData de naixement: "+this.getDataNaix()+
-				"\nGènere: "+this.getGenere()+
-				"\nAlçada: " + alcada + 
-				"\nPes: " + pes+ 
-				"\nTelf: " + telf+
-				"\nDNI: " + dni;
+		return String.format("%-15s %-15s %-15s %-15s %-15.2f %-15.2f %-15s %-15s",this.getNom(),this.getCognoms(),this.getDataNaix(),this.getGenere(),this.alcada,this.pes,this.telf,this.dni);
+
+//		return 	"\n-------"+
+//				"\nNom: " + this.getNom() +
+//				"\nCognoms: " + this.getCognoms() +
+//				"\nData de naixement: "+this.getDataNaix()+
+//				"\nGènere: "+this.getGenere()+
+//				"\nAlçada: " + alcada +
+//				"\nPes: " + pes+
+//				"\nTelèfon: " + telf+
+//				"\nDNI: " + dni;
 	}
 
 
@@ -87,7 +88,6 @@ public class Pacient extends Persona implements Serializable,Comparable{
 		};
 
 	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
