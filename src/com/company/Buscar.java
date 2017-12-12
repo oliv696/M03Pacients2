@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Buscar {
@@ -35,8 +37,29 @@ public class Buscar {
 	// Solución 2: Añadir esa función dentro de cada una
 	//GUARDAR INDICE EN CADA PASO EN ARRAY INTEGER
 
+	//TODO: Hacer solo lo de elegir 1 paciente cuando sea necesario (enviar alguien a algo, etc.), no para buscar.
+	//Solución: Parámetro booleano
+
+	private static Pacient seleccionarPacient(List<Pacient> pacients) {
+		Scanner scanner = new Scanner(System.in);
+		for (int i = 0; i < pacients.size(); i++) {
+			System.out.println("[" + (i+1) + "]" + " " + pacients.get(i));
+		}
+
+		System.out.println("\nSelecciona el pacient: ");
+		int seleccio = Integer.parseInt(scanner.nextLine());
+
+		while ((seleccio - 1) >= pacients.size()) {
+			System.out.println("Si us plau, selecciona un dels pacients mostrats: ");
+			seleccio = Integer.parseInt(scanner.nextLine());
+		}
+
+		return pacients.get((seleccio-1));
+	}
+
 	private static Pacient buscarNom(){
 
+		/*
 		System.out.println("Introdueix un nom\n");
 		Scanner sc=new Scanner(System.in);
 		String nom=sc.nextLine();
@@ -62,9 +85,37 @@ public class Buscar {
 			}
 		}
 		//sc.close();
+
+		*/
+
+		System.out.println("Introdueix un nom: ");
+		Scanner sc=new Scanner(System.in);
+		String nom=sc.nextLine();
+
+		Pacient pacient=null;
+		List<Pacient> trobats = new ArrayList<>();
+
+		for(Pacient p:Program.pacients){
+			if (nom.equalsIgnoreCase(p.getNom())) {
+				trobats.add(p);
+			}
+		}
+
+		for(Pacient p:Program.pacientsArxivats){
+			if (nom.equalsIgnoreCase(p.getNom())) {
+				trobats.add(p);
+			}
+		}
+
+		if (trobats.size()>1) {
+			pacient=seleccionarPacient(trobats);
+		}
+
+		if (trobats.size() == 0) {
+			System.out.println("Pacient no trobat");
+		}
+
 		return pacient;
-
-
 	}
 
     private static Pacient buscarCognom(){
