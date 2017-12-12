@@ -12,6 +12,7 @@ public class Main {
 		//TODO: java.util.InputMismatchException al meter doubles
 		//TODO: Arreglar buscar por cognoms
 		//TODO: Cambiar lista de espera a cola?
+		//TODO: Arreglar devolver más de un paciente en listados
 
 		Program p=new Program();
 		//p.carregar();

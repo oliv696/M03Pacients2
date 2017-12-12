@@ -20,7 +20,6 @@ public class Program {
 	//TODO: Es una cola    ??¿¿¿ no hace falta !
 	static Set<Pacient> esperaOp = new HashSet<>();
 
-
 	//2.1 Carregar pacients desde CSV ******************************************************************************************
 	public void carregar()throws IOException, ClassNotFoundException {
 
@@ -68,8 +67,6 @@ public class Program {
 			//					System.out.println(p);
 			//				}
 		}
-
-
 	}
 
 
@@ -101,7 +98,7 @@ public class Program {
                 genere=sc.nextLine().toUpperCase();
             }
             System.out.println("Alçada [cm]: ");
-            double alcada=sc.nextInt(); sc.nextLine();												//FUNCIONA!!!!
+            double alcada=sc.nextDouble(); sc.nextLine();												//FUNCIONA!!!!
 
             System.out.println("Pes: ");
             double pes=sc.nextDouble();sc.nextLine();
@@ -202,7 +199,7 @@ public class Program {
 
 
 	//2.8.2 Llistar pacients per rang edats *************************************************************************************************
-	public void llistarEdats(){
+	public int llistarEdats(boolean noPrint){
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Introdueix una edat mínima: ");
 		int edat1=sc.nextInt();sc.nextLine();
@@ -231,10 +228,15 @@ public class Program {
 		ordenados.addAll(edades);
 		Collections.sort(ordenados, Pacient.comparator);
 
-		for(Pacient p:ordenados){
-			System.out.println(p);
+		if (!noPrint) {
+			for(Pacient p:ordenados){
+				System.out.println(p);
+			}
+			System.out.println("\n");
 		}
-		System.out.println("\n");
+
+
+		return ordenados.size();
 	}
 
 
@@ -398,37 +400,116 @@ public class Program {
 	}
 	//2.9.1 Estadistica per edat, pes i alçada *********************************************************************************************
 	public void estadisticaPesEdatAlt(){
-		System.out.println("=== ESTADÍSTIQUES PER PES ===");
 		Map<Double,Integer> statsPes = new TreeMap<>();
+		Map<Integer,Integer> statsEdat = new TreeMap<>();
+		Map<Double,Integer> statsAlcada = new TreeMap<>();
 
 		for(Pacient p: pacients) {
 			statsPes.merge(p.getPes(), 1, Integer::sum);
+			statsEdat.merge(p.obtenirEdad(), 1, Integer::sum);
+			statsAlcada.merge(p.getAlcada(), 1, Integer::sum);
 		}
 
 		for(Pacient p: pacientsArxivats) {
 			statsPes.merge(p.getPes(), 1, Integer::sum);
+			statsEdat.merge(p.obtenirEdad(), 1, Integer::sum);
+			statsAlcada.merge(p.getAlcada(), 1, Integer::sum);
 		}
 
 		List<Map.Entry<Double,Integer>> statsPesList = new ArrayList<>(statsPes.entrySet());
+		List<Map.Entry<Integer,Integer>> statsEdatList = new ArrayList<>(statsEdat.entrySet());
+		List<Map.Entry<Double,Integer>> statsAlcadaList = new ArrayList<>(statsAlcada.entrySet());
 
 		Collections.sort(statsPesList, Comparator.comparing(Map.Entry::getValue));
+		Collections.sort(statsEdatList, Comparator.comparing(Map.Entry::getValue));
+		Collections.sort(statsAlcadaList, Comparator.comparing(Map.Entry::getValue));
 
-		ListIterator<Map.Entry<Double,Integer>> iterator = statsPesList.listIterator(statsPesList.size());
+		System.out.println();
+		System.out.println("=== ESTADÍSTIQUES PER PES ===");
 
-		while (iterator.hasPrevious()) {
-			Map.Entry<Double,Integer> entry = iterator.previous();
+		ListIterator<Map.Entry<Double,Integer>> iteratorPes = statsPesList.listIterator(statsPesList.size());
+
+		while (iteratorPes.hasPrevious()) {
+			Map.Entry<Double,Integer> entry = iteratorPes.previous();
 			System.out.println(entry.getKey() + "kg: " + entry.getValue() + " pacient(s)");
 		}
 
-		//TODO: Hacer
+		System.out.println();
+		System.out.println("=== ESTADÍSTIQUES PER EDAT ===");
 
+		ListIterator<Map.Entry<Integer,Integer>> iteratorEdat = statsEdatList.listIterator(statsEdatList.size());
+
+		while (iteratorEdat.hasPrevious()) {
+			Map.Entry<Integer,Integer> entry = iteratorEdat.previous();
+			System.out.println(entry.getKey() + " anys: " + entry.getValue() + " pacient(s)");
+		}
+
+		System.out.println();
+		System.out.println("=== ESTADÍSTIQUES PER ALÇADA ===");
+
+		ListIterator<Map.Entry<Double,Integer>> iteratorAlcada = statsAlcadaList.listIterator(statsAlcadaList.size());
+
+		while (iteratorAlcada.hasPrevious()) {
+			Map.Entry<Double,Integer> entry = iteratorAlcada.previous();
+			System.out.println(entry.getKey() + "cm: " + entry.getValue() + " pacient(s)");
+		}
+		System.out.println();
 	}
 
 	//2.9.2 Estadistica per franja edat, pes o alçada, freqüencia ***************************************************************************
 	public void freqRangEdatPesAlt(){
+		int opcioRang=estadistiquesSubmenu();
+		Scanner scanner = new Scanner(System.in);
 
-		//TODO: Hacer
+		switch (opcioRang) {
+			//Edat
+			case 1:
+				System.out.println("Ni ha " + llistarEdats(true) + " pacients en aquest rang.");
+				break;
+			//Pes
+			case 2:
+				int freqPes=0;
+				System.out.println("Introdueix un pes mínim: ");
+				double pesMin = Double.parseDouble(scanner.nextLine());
+				System.out.println("Introdueix un pes màxim: ");
+				double pesMax = Double.parseDouble(scanner.nextLine());
 
+				for (Pacient p : pacients) {
+					if (p.getPes() >= pesMin && p.getPes() <= pesMax) {
+						freqPes++;
+					}
+				}
+
+				for (Pacient p : pacientsArxivats) {
+					if (p.getPes() >= pesMin && p.getPes() <= pesMax) {
+						freqPes++;
+					}
+				}
+				System.out.println("Hi ha " + freqPes + " pacients en aquest rang de pes.");
+				break;
+			//Alçada
+			case 3:
+				int freqAlcada=0;
+				System.out.println("Introdueix una alçada mínima: ");
+				double alcadaMin = Double.parseDouble(scanner.nextLine());
+				System.out.println("Introdueix una alçada màxima: ");
+				double alcadaMax = Double.parseDouble(scanner.nextLine());
+
+				for (Pacient p : pacients) {
+					if (p.getAlcada() >= alcadaMin && p.getAlcada() <= alcadaMax) {
+						freqAlcada++;
+					}
+				}
+
+				for (Pacient p : pacientsArxivats) {
+					if (p.getAlcada() >= alcadaMin && p.getAlcada() <= alcadaMax) {
+						freqAlcada++;
+					}
+				}
+				System.out.println("Hi ha " + freqAlcada + " pacients en aquest rang d'alçada.");
+				break;
+
+		}
 	}
 
 	//2.9.3 Quantitat pacients en llista espera *********************************************************************************************
@@ -486,7 +567,7 @@ public class Program {
 		switch(opcio){
 
 			case 1:llistarPacients();break;
-			case 2:llistarEdats();break;
+			case 2:llistarEdats(false);break;
 			case 3:llistarCognom();break;
 			case 4:llistarPes();break;
 			case 5:llistarAlcada();break;
@@ -505,8 +586,8 @@ public class Program {
 		Scanner sc=new Scanner(System.in);
 		int opcio;
 
-		System.out.println("1. Freqüents per l'edat, pes i alçada\n" +
-				"2. Freqüència de pes, edat o alçada\n3. Quantitat en llista d'espera\n");
+		System.out.println("1. Freqüència per cada edat, pes i alçada\n" +
+				"2. Freqüència per rang d'edat, pes o alçada\n3. Quantitat en llista d'espera\n");
 		System.out.println("\nIntrodueix una opció:");
 		opcio=Integer.parseInt(sc.nextLine());
 
@@ -519,6 +600,14 @@ public class Program {
 		}
 
 		//sc.close();
+	}
+
+	private int estadistiquesSubmenu() {
+		System.out.println("1. Rang d'edat");
+		System.out.println("2. Rang de pes");
+		System.out.println("3. Rang d'alçada");
+		System.out.println("Introdueix una opció: ");
+		return Integer.parseInt(new Scanner(System.in).nextLine());
 	}
 }
 
