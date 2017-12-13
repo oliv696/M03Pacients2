@@ -17,7 +17,6 @@ public class Program {
 
 	static Set<Pacient> pacients = new HashSet<>();
 	static Set<Pacient> pacientsArxivats = new HashSet<>();
-	//TODO: Es una cola    ??¿¿¿ no hace falta !
 	static Set<Pacient> esperaOp = new HashSet<>();
 
 	//2.1 Carregar pacients desde CSV ******************************************************************************************
@@ -36,7 +35,7 @@ public class Program {
 			String line;
 
 			int afegits=0,repetits=0;
-			while ((line = br.readLine()) != null) {											//FUNCIONA!!!!
+			while ((line = br.readLine()) != null) {
 
 				String[] entries = line.split(",");
 
@@ -47,7 +46,7 @@ public class Program {
 				if(pacients.contains(pacient)){
 					repetits++;
 				}else{
-					pacients.add(pacient);										  //añadimos el paciente
+					pacients.add(pacient);
 					afegits++;
 				}
 
@@ -94,7 +93,7 @@ public class Program {
                 genere=sc.nextLine().toUpperCase();
             }
             System.out.println("Alçada [cm]: ");
-            double alcada=sc.nextDouble(); sc.nextLine();												//FUNCIONA!!!!
+            double alcada=sc.nextDouble(); sc.nextLine();
 
             System.out.println("Pes: ");
             double pes=sc.nextDouble();sc.nextLine();
@@ -128,7 +127,7 @@ public class Program {
 
 		Pacient p=Buscar.buscarMenu(true);
 		if(p!=null){
-			pacients.remove(p);																//FUNCIONA!!!!
+			pacients.remove(p);
 			pacientsArxivats.add(p);		
 			System.out.println("S'ha arxivat correctament.\n");
 		}
@@ -140,7 +139,7 @@ public class Program {
 		Pacient p=Buscar.buscarMenu(true);
 
 		if(p!=null){
-			pacients.remove(p);																//FUNCIONA!!!!
+			pacients.remove(p);
 			pacientsArxivats.remove(p);		
 			System.out.println("S'ha esborrat correctament.\n");
 		}
@@ -150,7 +149,7 @@ public class Program {
 	public void veurePacient(){
 
 		Pacient p=Buscar.buscarMenu(false);
-																								//FUNCIONA!!!!
+
 		if(p!=null){
 			printHeader();
 			System.out.println(p);
@@ -164,7 +163,7 @@ public class Program {
 
 		Pacient p=Buscar.buscarMenu(true);
 
-		if(p!=null){																	//FUNCIONA!!!!
+		if(p!=null){
 			esperaOp.add(p);
 			System.out.println("S'ha posat en llista d'espera correctament.\n");
 		}
@@ -176,7 +175,7 @@ public class Program {
 
 		Pacient p=Buscar.buscarMenu(true);
 
-		if(p!=null){																	//FUNCIONA!!!!
+		if(p!=null){
 			esperaOp.remove(p);
 			System.out.println("Operant pacient.\n");
 		}
@@ -185,7 +184,7 @@ public class Program {
 	//2.8.1 Cercar pacients  **************************************************************************************************************
 	public void llistarPacients(){ 
 
-		Buscar.buscarMenu(false);							//FALTA, ya que solo listaría uno
+		Buscar.buscarMenu(false);
 	}
 
 
@@ -233,34 +232,9 @@ public class Program {
 		return ordenados.size();
 	}
 
-	//TODO: Explicar al profe la reutilización
 	//2.8.3 Llistar pacients amb el mateix cognom, alfabeticament *************************************************************************
 	public void llistarCognom(){
 		Buscar.buscarCognom(false);
-        /*Scanner scanner = new Scanner(System.in);
-        System.out.println("Introdueix un cognom: ");
-        String cognom = scanner.nextLine();
-
-        List<Pacient> trobats = new ArrayList<>();
-
-        for(Pacient p : pacients) {
-            if (p.getCognoms().toLowerCase().contains(cognom.toLowerCase())) {
-                trobats.add(p);
-            }
-        }
-
-        for(Pacient p : pacientsArxivats) {
-            if (p.getCognoms().toLowerCase().contains(cognom.toLowerCase())) {
-                trobats.add(p);
-            }
-        }
-
-        Collections.sort(trobats, Comparator.comparing(Persona::getCognoms));
-
-        trobats.stream().forEach(System.out::println);
-        */
-
-		///comparo segunda pos del array con el apellido introducido, si coincide lo guardo en array, comparator para ordenar con apellido
 	}
 
 	//2.8.4 Llistar pacients fins a pes concret ******************************************************************************************
@@ -515,7 +489,7 @@ public class Program {
 
 	//2.9.3 Quantitat pacients en llista espera *********************************************************************************************
 	public void quantitatEsperant(){
-		System.out.println("Hi ha "+esperaOp.size()+" pacient(s) a la llista d'espera.\n");			//FUNCIONA!!!!
+		System.out.println("Hi ha "+esperaOp.size()+" pacient(s) a la llista d'espera.\n");
 	}
 
 	//Menú Principal ************************************************************************************************************************
@@ -536,9 +510,9 @@ public class Program {
 
 			switch(opcio){
 				case 1:carregar();break;
-				case 2:nouPacient();break;													//CUANDO HACE EL BUCLE LA SEGUNDA VEZ PETA :S :S
+				case 2:nouPacient();break;
 				case 3:arxivarPacient();break;
-				case 4:esborrarPacients();break;											//cuando lo pruebas dos veces me refiero
+				case 4:esborrarPacients();break;
 				case 5:
 					veurePacient();break;
 				case 6:posarEspera();break;

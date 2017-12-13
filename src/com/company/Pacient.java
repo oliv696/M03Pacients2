@@ -37,16 +37,6 @@ public class Pacient extends Persona implements Serializable,Comparable{
     @Override
 	public String toString() {
 		return String.format("%-15s %-15s %-15s %-15s %-15.2f %-15.2f %-15s %-15s",this.getNom(),this.getCognoms(),this.getDataNaix(),this.getGenere(),this.alcada,this.pes,this.telf,this.dni);
-
-//		return 	"\n-------"+
-//				"\nNom: " + this.getNom() +
-//				"\nCognoms: " + this.getCognoms() +
-//				"\nData de naixement: "+this.getDataNaix()+
-//				"\nGènere: "+this.getGenere()+
-//				"\nAlçada: " + alcada +
-//				"\nPes: " + pes+
-//				"\nTelèfon: " + telf+
-//				"\nDNI: " + dni;
 	}
 
 
@@ -79,13 +69,7 @@ public class Pacient extends Persona implements Serializable,Comparable{
 	}
 
 	//TODO: Revisar esto (es necesario Comparator? Meter en compareTo?)
-	static Comparator<Pacient> comparator = new Comparator<Pacient>() {
-		   public int compare(Pacient u1, Pacient u2) {
-			Integer a = u1.obtenirEdad();
-			Integer b = u2.obtenirEdad();
-		      return a.compareTo(b);
-		   }
-		};
+	static Comparator<Pacient> comparator = (u1, u2) -> ((Integer)u1.obtenirEdad()).compareTo(u2.obtenirEdad());
 
 	public int compareTo(Object arg0) {
 		return 0;

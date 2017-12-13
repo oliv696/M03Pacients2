@@ -25,7 +25,6 @@ public class Persona {
 		this.genere = genere;
 	}
 
-
 	public String getNom() {
 		return nom;
 	}

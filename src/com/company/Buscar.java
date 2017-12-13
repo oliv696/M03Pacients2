@@ -15,28 +15,17 @@ public class Buscar {
 
 		Pacient pacient=null;
 		switch(opcio){
-		case 1:pacient=buscarNom(toSelect); break;
-		case 2:pacient=buscarCognom(toSelect); break;
-		case 3:pacient=buscarDni();break;
-		case 4:pacient=buscarEdat(toSelect);break;
-		case 5:pacient=buscarTelf(toSelect);break;
-		case 6:pacient=buscarAlcada(toSelect);break;
-		case 7:pacient=buscarPes(toSelect);break;
-		default: System.out.println("Opció no vàlida [1-7]");
+			case 1:pacient=buscarNom(toSelect); break;
+			case 2:pacient=buscarCognom(toSelect); break;
+			case 3:pacient=buscarDni();break;
+			case 4:pacient=buscarEdat(toSelect);break;
+			case 5:pacient=buscarTelf(toSelect);break;
+			case 6:pacient=buscarAlcada(toSelect);break;
+			case 7:pacient=buscarPes(toSelect);break;
+			default: System.out.println("Opció no vàlida [1-7]");
 		}
-		//sc.close();
 		return pacient;
 	}
-
-	//CORREGIDO: Fallo de base: Buscar por nom, alçada, cognoms i pes solo devuelve el primero que encuentra, sin embargo
-	//varias personas pueden tener atributos iguales.
-	// Solución 1: Crear función auxiliar que muestre todos los que ha encontrado (y añadir a arraylist auxiliar de encontrados?)
-	// y pida al usuario cual de ellos hay que devolver
-	// Solución 2: Añadir esa función dentro de cada una
-	//GUARDAR INDICE EN CADA PASO EN ARRAY INTEGER
-
-	//CORREGIDO: Hacer solo lo de elegir 1 paciente cuando sea necesario (enviar alguien a algo, etc.), no para buscar.
-	//Solución: Parámetro booleano
 
 	private static Pacient seleccionarPacient(List<Pacient> pacients) {
 		Scanner scanner = new Scanner(System.in);
@@ -49,7 +38,7 @@ public class Buscar {
 			seleccio = Integer.parseInt(scanner.nextLine());
 		}
 
-		return pacients.get((seleccio-1));
+		return pacients.get(seleccio-1);
 	}
 
 	private static Pacient buscarNom(boolean toSelect){
@@ -114,6 +103,7 @@ public class Buscar {
 		if (trobats.size() == 0) {
 			System.out.println("Pacient no trobat");
 		} else {
+			Collections.sort(trobats, Comparator.comparing(Persona::getCognoms));
 			System.out.printf("    ");
 			Program.printHeader();
 			for (int i = 0; i < trobats.size(); i++) {
