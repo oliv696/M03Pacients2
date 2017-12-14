@@ -19,30 +19,6 @@ public class Pacient extends Persona implements Serializable,Comparable{
 		this.dni = dni;
 	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Pacient pacient = (Pacient) o;
-
-        return dni != null ? dni.equals(pacient.dni) : pacient.dni == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return dni != null ? dni.hashCode() : 0;
-    }
-
-    @Override
-	public String toString() {
-		return String.format("%-15s %-15s %-15s %-15s %-15.2f %-15.2f %-15s %-15s",this.getNom(),this.getCognoms(),this.getDataNaix(),this.getGenere(),this.alcada,this.pes,this.telf,this.dni);
-	}
-
-
-
-	
-
 	public double getAlcada() {
 		return alcada;
 	}
@@ -68,13 +44,34 @@ public class Pacient extends Persona implements Serializable,Comparable{
 		this.dni = dni;
 	}
 
-	//TODO: Revisar esto (es necesario Comparator? Meter en compareTo?)
-	static Comparator<Pacient> comparator = (u1, u2) -> ((Integer)u1.obtenirEdad()).compareTo(u2.obtenirEdad());
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-	public int compareTo(Object arg0) {
-		return 0;
+		Pacient pacient = (Pacient) o;
+
+		return dni != null ? dni.equals(pacient.dni) : pacient.dni == null;
 	}
 
+	@Override
+	public int hashCode() {
+		return dni != null ? dni.hashCode() : 0;
+	}
 
+	@Override
+	public String toString() {
+		return String.format("%-15s %-15s %-15s %-15s %-15.2f %-15.2f %-15s %-15s",this.getNom(),this.getCognoms(),this.getDataNaix(),this.getGenere(),this.alcada,this.pes,this.telf,this.dni);
+	}
 
+	@Override
+	public int compareTo(Object o) {
+		if (this.obtenirEdad() < ((Pacient)o).obtenirEdad()) {
+			return -1;
+		} else if(this.obtenirEdad() > ((Pacient)o).obtenirEdad()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 }

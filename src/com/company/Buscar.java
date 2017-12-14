@@ -144,7 +144,6 @@ public class Buscar {
 				System.out.println("Pacient no trobat");	
 			}
 		}
-		//sc.close();
 		return pacient;
 	}
 

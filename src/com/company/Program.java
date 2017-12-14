@@ -12,8 +12,9 @@ public class Program {
 
 	DateTimeFormatter format=DateTimeFormatter.ofPattern("d/MM/yyy");
 
-	//TODO: Quitar antes de entregar. Borrar también el fichero del proyecto
-	static String rutaFitxer ="pacients.csv";
+	static String rutaFitxer;
+
+	//static String rutaFitxer ="pacients.csv";
 
 	static Set<Pacient> pacients = new HashSet<>();
 	static Set<Pacient> pacientsArxivats = new HashSet<>();
@@ -22,10 +23,9 @@ public class Program {
 	//2.1 Carregar pacients desde CSV ******************************************************************************************
 	public void carregar()throws IOException, ClassNotFoundException {
 
-		//TODO: Descomentar antes de entregar
-		//Scanner scanner= new Scanner(System.in);
-		//System.out.println("Introdueix la ruta del fitxer: ");
-		//rutaFitxer =scanner.nextLine();
+		Scanner scanner= new Scanner(System.in);
+		System.out.println("Introdueix la ruta del fitxer: ");
+		rutaFitxer =scanner.nextLine();
 		File fitxer=new File(rutaFitxer);
 
 		if (!fitxer.exists()) {
@@ -93,10 +93,10 @@ public class Program {
                 genere=sc.nextLine().toUpperCase();
             }
             System.out.println("Alçada [cm]: ");
-            double alcada=sc.nextDouble(); sc.nextLine();
+            double alcada=Double.parseDouble(sc.nextLine());
 
             System.out.println("Pes: ");
-            double pes=sc.nextDouble();sc.nextLine();
+            double pes=Double.parseDouble(sc.nextLine());
 
             System.out.println("Telèfon: ");
             String telf=sc.nextLine();
@@ -192,9 +192,9 @@ public class Program {
 	public int llistarEdats(boolean noPrint){
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Introdueix una edat mínima: ");
-		int edat1=sc.nextInt();sc.nextLine();
+		int edat1=Integer.parseInt(sc.nextLine());
 		System.out.println("Introdueix una edat màxima");
-		int edat2=sc.nextInt();sc.nextLine();
+		int edat2=Integer.parseInt(sc.nextLine());
 
 		Set<Pacient> edades = new HashSet<>();
 
@@ -203,8 +203,8 @@ public class Program {
 		for(Pacient p:pacients){
 			e1=p.obtenirEdad();
 			if(e1>=edat1 && e1<=edat2){
-				edades.add(p);											//FUNCIONA!!!! aunque no está hecho con el método buscar
-			}															//             ya que sólo encontraría una edad 
+				edades.add(p);
+			}
 		}
 		for(Pacient p:pacientsArxivats){
 			e1=p.obtenirEdad();
@@ -215,7 +215,7 @@ public class Program {
 
 		List<Pacient> ordenados=new ArrayList<>();
 		ordenados.addAll(edades);
-		Collections.sort(ordenados, Pacient.comparator);
+		Collections.sort(ordenados);
 
 		if (!noPrint && !ordenados.isEmpty()) {
 			Program.printHeader();
